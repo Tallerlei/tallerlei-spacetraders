@@ -1,0 +1,20 @@
+<!-- Footer -->
+<mat-toolbar class="md-hue-2" layout="row" layout-align="center center">
+    {{currentTitle}}
+</mat-toolbar>
+
+<mat-sidenav-container class="main-container">
+    <mat-sidenav #sidenav role="navigation">
+
+    </mat-sidenav>
+    <mat-sidenav-content>
+        <main>
+            <router-outlet></router-outlet>
+        </main>
+    </mat-sidenav-content>
+</mat-sidenav-container>
+
+<!-- Footer -->
+<mat-toolbar class="md-hue-2" layout="row" layout-align="center center">
+    <span>&copy; 2023 My Company</span>
+</mat-toolbar>

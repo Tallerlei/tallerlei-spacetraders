@@ -1,0 +1,14 @@
+
+<mat-card class="example-card">
+    <mat-card-header>
+        <mat-card-title mat>{{agent().symbol}}</mat-card-title>
+        <mat-card-subtitle mat>{{agent().headquarters}}</mat-card-subtitle>
+    </mat-card-header>
+    <mat-card-content>
+        <div>Credits: {{agent().credits}}</div>
+    </mat-card-content>
+    <mat-card-actions>
+        <button mat-raised-button color="primary" (click)="visitHeadQuarterClicked()">Visit Headquarter</button>
+        <button mat-raised-button>Show Jobs</button>
+    </mat-card-actions>
+</mat-card>
