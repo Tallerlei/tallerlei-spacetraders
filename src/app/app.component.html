@@ -4,8 +4,9 @@
 </mat-toolbar>
 
 <mat-sidenav-container class="main-container">
-    <mat-sidenav #sidenav role="navigation">
-
+    <mat-sidenav #sidenav role="navigation" opened mode="side" class="sidenav-container">
+        SideNav
+        <router-outlet name="side"></router-outlet>
     </mat-sidenav>
     <mat-sidenav-content>
         <main>

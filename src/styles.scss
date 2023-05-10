@@ -10,73 +10,68 @@
 
 /* For use in src/lib/core/theming/_palette.scss */
 $md-green: (
-    50 : #e5eae4,
-    100 : #becbbc,
-    200 : #93a88f,
-    300 : #678562,
-    400 : #476a41,
-    500 : #26501f,
-    600 : #22491b,
-    700 : #1c4017,
-    800 : #173712,
-    900 : #0d270a,
-    A100 : #72ff64,
-    A200 : #44ff31,
-    A400 : #17fd00,
-    A700 : #15e400,
-    contrast: (
-        50 : #000000,
-        100 : #000000,
-        200 : #000000,
-        300 : #ffffff,
-        400 : #ffffff,
-        500 : #ffffff,
-        600 : #ffffff,
-        700 : #ffffff,
-        800 : #ffffff,
-        900 : #ffffff,
-        A100 : #000000,
-        A200 : #000000,
-        A400 : #000000,
-        A700 : #000000,
-    )
+  50 : #e5eae4,
+  100 : #becbbc,
+  200 : #93a88f,
+  300 : #678562,
+  400 : #476a41,
+  500 : #26501f,
+  600 : #22491b,
+  700 : #1c4017,
+  800 : #173712,
+  900 : #0d270a,
+  A100 : #72ff64,
+  A200 : #44ff31,
+  A400 : #17fd00,
+  A700 : #15e400,
+  contrast: (50 : #000000,
+    100 : #000000,
+    200 : #000000,
+    300 : #ffffff,
+    400 : #ffffff,
+    500 : #ffffff,
+    600 : #ffffff,
+    700 : #ffffff,
+    800 : #ffffff,
+    900 : #ffffff,
+    A100 : #000000,
+    A200 : #000000,
+    A400 : #000000,
+    A700 : #000000,
+  )
 );
 /* For use in src/lib/core/theming/_palette.scss */
 $md-violet: (
-    50 : #e9e4ea,
-    100 : #c8bccb,
-    200 : #a48fa8,
-    300 : #7f6285,
-    400 : #63416a,
-    500 : #481f50,
-    600 : #411b49,
-    700 : #381740,
-    800 : #301237,
-    900 : #210a27,
-    A100 : #dc64ff,
-    A200 : #d031ff,
-    A400 : #c400fd,
-    A700 : #b000e4,
-    contrast: (
-        50 : #000000,
-        100 : #000000,
-        200 : #000000,
-        300 : #ffffff,
-        400 : #ffffff,
-        500 : #ffffff,
-        600 : #ffffff,
-        700 : #ffffff,
-        800 : #ffffff,
-        900 : #ffffff,
-        A100 : #000000,
-        A200 : #ffffff,
-        A400 : #ffffff,
-        A700 : #ffffff,
-    )
+  50 : #e9e4ea,
+  100 : #c8bccb,
+  200 : #a48fa8,
+  300 : #7f6285,
+  400 : #63416a,
+  500 : #481f50,
+  600 : #411b49,
+  700 : #381740,
+  800 : #301237,
+  900 : #210a27,
+  A100 : #dc64ff,
+  A200 : #d031ff,
+  A400 : #c400fd,
+  A700 : #b000e4,
+  contrast: (50 : #000000,
+    100 : #000000,
+    200 : #000000,
+    300 : #ffffff,
+    400 : #ffffff,
+    500 : #ffffff,
+    600 : #ffffff,
+    700 : #ffffff,
+    800 : #ffffff,
+    900 : #ffffff,
+    A100 : #000000,
+    A200 : #ffffff,
+    A400 : #ffffff,
+    A700 : #ffffff,
+  )
 );
-
-
-
 
 // Define the palettes for your theme using the Material Design palettes available in palette.scss
 // (imported above). For each palette, you can optionally specify a default, lighter, and darker
@@ -107,6 +102,11 @@ app-root {
   height: 100%;
 }
 
+.sidenav-container {
+  min-width: 300px;
+  max-width: 300px;
+}
+
 app-root {
   display: flex;
   flex-direction: column;
@@ -118,5 +118,16 @@ body {
 }
 
 .main-container {
+  width: 100%;
   flex: 1;
+}
+
+.label-and-text {
+  label {
+    min-width: 150px;
+  }
+
+  display: flex;
+  flex-direction: row;
+  margin-bottom: 6px;
 }

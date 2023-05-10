@@ -1,0 +1,89 @@
+<mat-card class="example-card" *ngIf="!loading && ship().symbol">
+    <mat-card-header>
+        <mat-card-title mat>
+            {{ ship().registration.name }} ({{ ship().registration.factionSymbol }})
+        </mat-card-title>
+        <mat-card-subtitle mat>
+            {{ ship().registration.role }}
+        </mat-card-subtitle>
+    </mat-card-header>
+    <mat-card-content>
+        <div class="label-and-text">
+            <label>NAV > Status</label>
+            <div>{{ship().nav.status}}</div>
+        </div>
+        <div class="label-and-text">
+            <label>NAV > Waypoint</label>
+            <div>{{ship().nav.waypointSymbol}}</div>
+        </div>
+        <div class="label-and-text">
+            <label>FRAME</label>
+            <div>
+                <div class="label-and-text">
+                    <label>Name</label>
+                    <div>{{ ship().frame.name}}</div>
+                </div>
+                <div class="label-and-text">
+                    <label>Description</label>
+                    <div>{{ ship().frame.description}}</div>
+                </div>
+            </div>
+        </div>
+        <div class="label-and-text">
+            <label>CARGO</label>
+            <div>
+                <div class="label-and-text">
+                    <label>capacity</label>
+                    <div>{{ ship().cargo.capacity}}</div>
+                </div>
+                <div class="label-and-text">
+                    <label>capacity</label>
+                    <div>{{ ship().cargo.units}}</div>
+                </div>
+                <div class="label-and-text">
+                    <label>inventory</label>
+                    <div *ngFor="let inventoryItem of ship().cargo.inventory">
+                        <div class="label-and-text">
+                            <label>Name</label>
+                            <div>{{ inventoryItem.name}}</div>
+                        </div>
+                        <div class="label-and-text">
+                            <label>Description</label>
+                            <div>{{ inventoryItem.description}}</div>
+                        </div>
+                        <div class="label-and-text">
+                            <label>Units</label>
+                            <div>{{ inventoryItem.units}}</div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="label-and-text">
+            <label>MODULES</label>
+            <div>
+                <div *ngFor="let module of ship().modules" class="label-and-text">
+                    <label>{{module.name}}</label>
+                    <div>{{ module.description}}</div>
+                    <div>{{ module.capacity}}</div>
+                </div>
+            </div>
+        </div>
+        <div class="label-and-text">
+            <label>Mounts</label>
+            <div>
+                <div *ngFor="let mount of ship().mounts" class="label-and-text">
+                    <label>{{mount.name}}</label>
+                    <div>{{ mount.description}}</div>
+                    <div>{{ mount.strength}}</div>
+                </div>
+            </div>
+        </div>
+
+    </mat-card-content>
+    <mat-card-actions>
+        <button *ngIf="fromList" mat-raised-button color="primary" (click)="goToShip()">Go To Ship</button>
+        <button *ngIf="!fromList" mat-raised-button color="primary" (click)="viewShips()">View Ships</button>
+    </mat-card-actions>
+</mat-card>

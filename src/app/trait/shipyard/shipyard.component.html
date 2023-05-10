@@ -1,0 +1,8 @@
+<mat-list>
+    <div mat-subheader>Ships</div>
+    <mat-list-item *ngFor="let shipType of shipyard().shipTypes">
+        <mat-icon matListItemIcon>rocket</mat-icon>
+        <div matListItemTitle>{{shipType.type}}<button mat-button (click)="buyShip(shipType)">Buy</button></div>
+
+    </mat-list-item>
+</mat-list>

@@ -1,18 +1,43 @@
-
-<mat-card class="example-card">
+<mat-card class="example-card" *ngIf="!loading && waypoint().symbol">
     <mat-card-header>
-        <mat-card-title mat>{{waypoint().symbol}}</mat-card-title>
-        <mat-card-subtitle mat>{{waypoint().type}}</mat-card-subtitle>
+        <mat-card-title mat>
+            <div *ngIf="isHome">HOME </div>{{waypoint().symbol}} <div class="unicorn-header">(X: {{waypoint().x}}, Y:
+                {{waypoint().y}})
+            </div>
+        </mat-card-title>
+        <mat-card-subtitle mat>
+            <ng-container [ngSwitch]="waypoint().type">
+                <mat-icon *ngSwitchCase="'PLANET'" aria-hidden="false" aria-label="Planet" fontIcon="public"></mat-icon>
+                <mat-icon *ngSwitchCase="'MOON'" aria-hidden="false" aria-label="Moon" fontIcon="circle"></mat-icon>
+                <mat-icon *ngSwitchCase="'ORBITAL_STATION'" aria-hidden="false" aria-label="Orbital Station"
+                    fontIcon="satellite_alt"></mat-icon>
+                <mat-icon *ngSwitchCase="'JUMP_GATE'" aria-hidden="false" aria-label="Jump Gate"
+                    fontIcon="travel_explore"></mat-icon>
+                <mat-icon *ngSwitchCase="'ASTEROID_FIELD'" aria-hidden="false" aria-label="Asteroid Field"
+                    fontIcon="snowing"></mat-icon>
+                <mat-icon *ngSwitchCase="'GAS_GIANT'" aria-hidden="false" aria-label="Gas Giant"
+                    fontIcon="cloudy"></mat-icon>
+                <mat-icon *ngSwitchDefault aria-hidden="false" aria-label="Error" fontIcon="error"></mat-icon>
+            </ng-container>
+            <div>{{waypoint().type}}</div>
+        </mat-card-subtitle>
     </mat-card-header>
     <mat-card-content>
-        <div>X: {{waypoint().x}}</div>
-        <div>Y: {{waypoint().y}}</div>
         <div>Faction: {{waypoint().faction.symbol}}</div>
-        <div *ngFor="let trait of waypoint().traits">{{trait.name}}</div>
-        <div *ngFor="let orbital of waypoint().orbitals">{{orbital.symbol}}</div>
+        <div *ngFor="let trait of waypoint().traits">
+            <div *ngIf="trait.name === 'Shipyard'; else defaultTrait">
+                <button mat-button (click)="checkShipyard()">Shipyard</button>
+            </div>
+            <ng-template #defaultTrait>
+                {{trait.name}}
+            </ng-template>
+        </div>
+        <button mat-raised-button *ngFor="let orbital of waypoint().orbitals"
+            (click)="goToOrbital(orbital)">{{orbital.symbol}}</button>
     </mat-card-content>
     <mat-card-actions>
-        <!-- <button mat-raised-button color="primary" (click)="visitHeadQuarterClicked()">Visit Headquarter</button> -->
-        <button mat-raised-button>Show Jobs</button>
+        <button *ngIf="fromList" mat-raised-button color="primary" (click)="goToWayPoint()">Go To Waypoint</button>
+        <button *ngIf="!fromList" mat-raised-button color="primary" (click)="viewSystems()">View System</button>
+        <button mat-raised-button color="primary" (click)="navigateTo()">Navigate To</button>
     </mat-card-actions>
 </mat-card>

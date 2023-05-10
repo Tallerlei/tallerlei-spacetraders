@@ -1,7 +1,7 @@
-import { ChangeDetectionStrategy, Component, signal, WritableSignal, effect } from '@angular/core';
-import { SpacetradersApiService } from '../core/services/spacetraders-api.service';
-import { AgentData } from '../shared/models/agent/agent';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { Router } from '@angular/router';
+import { SessionService } from '../core/services/session.service';
+import { Agent } from '../shared/models/agent/agent';
 
 @Component({
   selector: 'app-start-screen',
@@ -10,27 +10,24 @@ import { Router } from '@angular/router';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class StartScreenComponent {
-  agent: WritableSignal<AgentData> = signal(new AgentData())
   constructor(
     private router: Router,
-    private spacetradersService: SpacetradersApiService
-  ) {
-    effect(() => {
-      console.log(`The current agent is: ${this.agent()}`);
-    });
-
-  }
-
-  ngOnInit(): void {
-    this.spacetradersService.getAgentData().subscribe((agent) => {
-      this.agent.set(agent.data);
-      // console.log(agent);
-    });
-  }
+    private session: SessionService
+  ) { }
 
   visitHeadQuarterClicked() {
+    this.router.navigate(['waypoint', this.agent.headquarters])
+  }
 
-    this.router.navigate(['waypoint', this.agent().headquarters])
+  showContracts() {
+    this.router.navigate(['contracts']);
+  }
 
+  showShips() {
+    this.router.navigate(['ships']);
+  }
+
+  get agent(): Agent {
+    return this.session.agent();
   }
 }

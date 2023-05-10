@@ -1,0 +1,25 @@
+<ng-container *ngFor="let contract of contracts()">
+
+<mat-card>
+    <mat-card-header>
+        <mat-card-title mat>{{contract.factionSymbol}}</mat-card-title>
+        <mat-card-subtitle mat>
+            <ng-container [ngSwitch]="contract.type">
+                <mat-icon *ngSwitchCase="'PROCUREMENT'" aria-hidden="false" aria-label="Procurement"
+                    fontIcon="shopping_cart"></mat-icon>
+                <mat-icon *ngSwitchDefault aria-hidden="false" aria-label="Type not found"
+                    fontIcon="error"></mat-icon>
+            </ng-container>
+            <div>{{contract.type}}</div>
+        </mat-card-subtitle>
+    </mat-card-header>
+    <mat-card-content>
+
+    </mat-card-content>
+    <mat-card-actions>
+        <button mat-raised-button color="secondary" (click)="showContractDetails(contract)">Details</button>
+        <button mat-raised-button color="primary" (click)="acceptContract(contract)" [disabled]="contract.accepted">Accept</button>
+    </mat-card-actions>
+</mat-card>
+
+</ng-container>

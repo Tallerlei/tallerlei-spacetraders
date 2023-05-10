@@ -16,6 +16,13 @@ import { StartScreenComponent } from './start-screen/start-screen.component';
 import { TraitComponent } from './trait/trait.component';
 import { CommonModule } from '@angular/common';
 import { WaypointComponent } from './waypoint/waypoint.component';
+import { ContractListComponent } from './contracts/contract-list/contract-list.component';
+import { ContractDetailComponent } from './contracts/contract-detail/contract-detail.component';
+import { WaypointListComponent } from './waypoint/waypoint-list/waypoint-list.component';
+import { ShipyardComponent } from './trait/shipyard/shipyard.component';
+import { ShipsComponent } from './ships/ship-list.component';
+import { ShipDetailsComponent } from './ships/ship-details/ship-details.component';
+import { SelectShipDialogComponent } from './dialogs/select-ship-dialog/select-ship-dialog.component';
 
 @NgModule({
   declarations: [
@@ -25,6 +32,13 @@ import { WaypointComponent } from './waypoint/waypoint.component';
     StartScreenComponent,
     TraitComponent,
     WaypointComponent,
+    ContractListComponent,
+    ContractDetailComponent,
+    WaypointListComponent,
+    ShipyardComponent,
+    ShipsComponent,
+    ShipDetailsComponent,
+    SelectShipDialogComponent,
   ],
   imports: [
     AngularMaterialModule,

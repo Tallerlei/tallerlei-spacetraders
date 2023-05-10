@@ -1,0 +1,82 @@
+<mat-card>
+    <mat-card-header>
+        <mat-card-title mat>{{contract().factionSymbol}}</mat-card-title>
+        <mat-card-subtitle mat>
+            <ng-container [ngSwitch]="contract().type">
+                <mat-icon *ngSwitchCase="'PROCUREMENT'" aria-hidden="false" aria-label="Procurement"
+                    fontIcon="shopping_cart"></mat-icon>
+                <mat-icon *ngSwitchDefault aria-hidden="false" aria-label="Type not found" fontIcon="error"></mat-icon>
+            </ng-container>
+            <div>{{contract().type}}</div>
+        </mat-card-subtitle>
+    </mat-card-header>
+    <mat-card-content>
+        <hr>
+        <div class="label-and-text">
+            <label>ID</label>
+            <div>{{contract().id}}</div>
+        </div>
+        <div class="label-and-text">
+            <label>ACCEPTED</label>
+            <div>{{contract().accepted}}</div>
+        </div>
+        <div class="label-and-text">
+            <label>FULFILLED</label>
+            <div>{{contract().fulfilled}}</div>
+        </div>
+        <div class="label-and-text">
+            <label>EXPIRATION</label>
+            <div>{{contract().expiration | date:'medium'}}</div>
+        </div>
+        <div class="label-and-text">
+            <label>TERMS</label>
+            <div>
+                <div class="label-and-text">
+                    <label>DEADLINE</label>
+                    <div>{{contract().terms.deadline | date:'medium'}}</div>
+                </div>
+                <div class="label-and-text">
+                    <label>PAYMENT</label>
+                    <div>
+                        <div class="label-and-text">
+                            <label>STARTED</label>
+                            <div>{{contract().terms.payment.onAccepted}} Credits</div>
+                        </div>
+                        <div class="label-and-text">
+                            <label>FINISHED</label>
+                            <div>{{contract().terms.payment.onFulfilled}} Credits</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="label-and-text">
+                    <label>DELIVER</label>
+                    <div *ngFor="let delivery of contract().terms.deliver">
+                        <div class="label-and-text">
+                            <label>TRADESYMBOL</label>
+                            <div>{{delivery.tradeSymbol}}</div>
+                        </div>
+                        <div class="label-and-text">
+                            <label>DESTINATION</label>
+                            <button mat-button
+                                (click)="goToWayPoint(delivery.destinationSymbol)">{{delivery.destinationSymbol}}</button>
+                        </div>
+                        <div class="label-and-text">
+                            <label>UNITS REQUIRED</label>
+                            <div>{{delivery.unitsRequired}}</div>
+                        </div>
+                        <div class="label-and-text">
+                            <label>UNITS FULFILLED</label>
+                            <div>{{delivery.unitsFulfilled}}</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <hr>
+    </mat-card-content>
+    <mat-card-actions>
+        <!-- <button mat-raised-button color="secondary" (click)="showContractDetails()">Back</button> -->
+        <button mat-raised-button color="primary" (click)="acceptContract()"
+            [disabled]="contract().accepted">Accept</button>
+    </mat-card-actions>
+</mat-card>
