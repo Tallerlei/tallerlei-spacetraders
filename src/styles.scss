@@ -1,120 +1,120 @@
-// Custom Theming for Angular Material
-// For more information: https://material.angular.io/guide/theming
 @use '@angular/material' as mat;
-// Plus imports for other components in your app.
 
-// Include the common styles for Angular Material. We include this here so that you only
-// have to load a single css file for Angular Material in your app.
-// Be sure that you only ever include this mixin once!
+
 @include mat.core();
 
-/* For use in src/lib/core/theming/_palette.scss */
-$md-green: (
-  50 : #e5eae4,
-  100 : #becbbc,
-  200 : #93a88f,
-  300 : #678562,
-  400 : #476a41,
-  500 : #26501f,
-  600 : #22491b,
-  700 : #1c4017,
-  800 : #173712,
-  900 : #0d270a,
-  A100 : #72ff64,
-  A200 : #44ff31,
-  A400 : #17fd00,
-  A700 : #15e400,
-  contrast: (50 : #000000,
-    100 : #000000,
-    200 : #000000,
-    300 : #ffffff,
-    400 : #ffffff,
-    500 : #ffffff,
-    600 : #ffffff,
-    700 : #ffffff,
-    800 : #ffffff,
-    900 : #ffffff,
-    A100 : #000000,
-    A200 : #000000,
-    A400 : #000000,
-    A700 : #000000,
-  )
-);
-/* For use in src/lib/core/theming/_palette.scss */
-$md-violet: (
-  50 : #e9e4ea,
-  100 : #c8bccb,
-  200 : #a48fa8,
-  300 : #7f6285,
-  400 : #63416a,
-  500 : #481f50,
-  600 : #411b49,
-  700 : #381740,
-  800 : #301237,
-  900 : #210a27,
-  A100 : #dc64ff,
-  A200 : #d031ff,
-  A400 : #c400fd,
-  A700 : #b000e4,
-  contrast: (50 : #000000,
-    100 : #000000,
-    200 : #000000,
-    300 : #ffffff,
-    400 : #ffffff,
-    500 : #ffffff,
-    600 : #ffffff,
-    700 : #ffffff,
-    800 : #ffffff,
-    900 : #ffffff,
-    A100 : #000000,
-    A200 : #ffffff,
-    A400 : #ffffff,
-    A700 : #ffffff,
-  )
+$dark-primary-text: rgba(black, 0.87);
+
+$light-primary-text: white;
+
+$mat-primary: (
+        50: #e8eaf6,
+        100: #c5cae9,
+        200: #9fa8da,
+        300: #7986cb,
+        400: #5c6bc0,
+        500: #3f51b5,
+        600: #3949ab,
+        700: #303f9f,
+        800: #283593,
+        900: #1a237e,
+        A100: #8c9eff,
+        A200: #536dfe,
+        A400: #3d5afe,
+        A700: #304ffe,
+        contrast: (
+                50: $dark-primary-text,
+                100: $dark-primary-text,
+                200: $dark-primary-text,
+                300: $light-primary-text,
+                400: $light-primary-text,
+                500: $light-primary-text,
+                600: $light-primary-text,
+                700: $light-primary-text,
+                800: $light-primary-text,
+                900: $light-primary-text,
+                A100: $dark-primary-text,
+                A200: $light-primary-text,
+                A400: $light-primary-text,
+                A700: $light-primary-text,
+        )
 );
 
-// Define the palettes for your theme using the Material Design palettes available in palette.scss
-// (imported above). For each palette, you can optionally specify a default, lighter, and darker
-// hue. Available color palettes: https://material.io/design/color/
-$tallerlei-spacetraders-primary: mat.define-palette($md-green);
-$tallerlei-spacetraders-accent: mat.define-palette($md-violet, A200, A100, A400);
+$mat-accent: (
+        50: #fce4ec,
+        100: #f8bbd0,
+        200: #f48fb1,
+        300: #f06292,
+        400: #ec407a,
+        500: #e91e63,
+        600: #d81b60,
+        700: #c2185b,
+        800: #ad1457,
+        900: #880e4f,
+        A100: #ff80ab,
+        A200: #ff4081,
+        A400: #f50057,
+        A700: #c51162,
+        contrast: (
+                50: $dark-primary-text,
+                100: $dark-primary-text,
+                200: $dark-primary-text,
+                300: $dark-primary-text,
+                400: $dark-primary-text,
+                500: $light-primary-text,
+                600: $light-primary-text,
+                700: $light-primary-text,
+                800: $light-primary-text,
+                900: $light-primary-text,
+                A100: $dark-primary-text,
+                A200: $light-primary-text,
+                A400: $light-primary-text,
+                A700: $light-primary-text,
+        )
+);
 
-// The warn palette is optional (defaults to red).
-$tallerlei-spacetraders-warn: mat.define-palette(mat.$red-palette);
 
-// Create the theme object. A theme consists of configurations for individual
-// theming systems such as "color" or "typography".
-$tallerlei-spacetraders-theme: mat.define-light-theme((color: (primary: $tallerlei-spacetraders-primary,
-        accent: $tallerlei-spacetraders-accent,
-        warn: $tallerlei-spacetraders-warn,
-      )));
 
-// Include theme styles for core and each component used in your app.
-// Alternatively, you can import and @include the theme mixins for each component
-// that you are using.
-@include mat.all-component-themes($tallerlei-spacetraders-theme);
+$primary: mat.define-palette($mat-primary, 500);
 
-/* You can add global styles to this file, and also import other style files */
+$accent: mat.define-palette($mat-accent, A200, A100, A400);
+
+$theme: mat.define-light-theme((
+  color: (
+    primary: $primary,
+    accent: $accent,
+  ),
+  typography: mat.define-typography-config(),
+  density: 0,
+));
+
+@include mat.all-component-themes($theme);
+
+.highlight-date {
+  background: red;
+}
+
+
+.mat-elevation-z7 {
+  box-shadow: 0 4px 5px -2px #0003, 0 7px 10px 1px #00000024, 0 2px 16px 1px #0000001f;
+}
+
 
 html,
 body,
 app-root {
   height: 100%;
 }
-
-.sidenav-container {
-  min-width: 300px;
-  max-width: 300px;
-}
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 
 app-root {
   display: flex;
   flex-direction: column;
 }
 
-body {
-  margin: 0;
-  font-family: Roboto, "Helvetica Neue", sans-serif;
+.sidenav-container {
+  min-width: 300px;
+  max-width: 300px;
 }
 
 .main-container {

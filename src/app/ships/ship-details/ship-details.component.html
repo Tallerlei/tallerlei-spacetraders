@@ -14,7 +14,12 @@
         </div>
         <div class="label-and-text">
             <label>NAV > Waypoint</label>
-            <div>{{ship().nav.waypointSymbol}}</div>
+            <button mat-button (click)="showWaypoint(ship().nav.waypointSymbol)">{{ship().nav.waypointSymbol}}</button>
+        </div>
+        <div class="label-and-text">
+            <label>Fuel</label>
+            <mat-progress-bar mode="determinate"
+                [value]="ship().fuel.current / ship().fuel.capacity * 100"></mat-progress-bar> {{ship().fuel.capacity}}
         </div>
         <div class="label-and-text">
             <label>FRAME</label>
@@ -85,5 +90,11 @@
     <mat-card-actions>
         <button *ngIf="fromList" mat-raised-button color="primary" (click)="goToShip()">Go To Ship</button>
         <button *ngIf="!fromList" mat-raised-button color="primary" (click)="viewShips()">View Ships</button>
+        <button mat-raised-button color="primary" (click)="dockShip()" [disabled]="ship().nav.status === 'DOCKED'">Dock
+            Ship</button>
+        <button mat-raised-button color="primary" (click)="refuelShip()"
+            [disabled]="ship().nav.status !== 'DOCKED'">Refuel Ship</button>
+        <button mat-raised-button color="primary" (click)="orbitWaypoint()"
+            [disabled]="ship().nav.status !== 'DOCKED'">Orbit Wayoint</button>
     </mat-card-actions>
 </mat-card>

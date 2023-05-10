@@ -11,6 +11,8 @@ import { Contract } from 'src/app/shared/models/contract/contract';
 import { ShipType } from 'src/app/shared/models/ship/ship-type';
 import { Ship } from 'src/app/shared/models/ship/ship';
 import { Transaction } from 'src/app/shared/models/transaction/transaction';
+import { Nav } from 'src/app/shared/models/ship/nav';
+import { Fuel } from 'src/app/shared/models/ship/fuel';
 @Injectable({
   providedIn: 'root'
 })
@@ -111,7 +113,7 @@ export class SpacetradersApiService {
     )
   }
 
-  buyShip(shipType: ShipType, waypointIdentifier: string): Observable<{agent: Agent, ship: Ship, transaction: Transaction}> {
+  buyShip(shipType: ShipType, waypointIdentifier: string): Observable<{ agent: Agent, ship: Ship, transaction: Transaction }> {
     const url = this.baseUrl + '/my/ships';
 
     const body = {
@@ -119,7 +121,7 @@ export class SpacetradersApiService {
       waypointSymbol: waypointIdentifier,
     };
 
-    return this.httpClient.post<{agent: Agent, ship: Ship, transaction: Transaction}>(url, body, {
+    return this.httpClient.post<{ agent: Agent, ship: Ship, transaction: Transaction }>(url, body, {
       headers: new HttpHeaders({
         'Authorization': `Bearer ${new BearerToken().tokenValue}`
       })
@@ -140,7 +142,7 @@ export class SpacetradersApiService {
     )
   }
 
-  getShip(shipIdentifier: string ): Observable<Ship> {
+  getShip(shipIdentifier: string): Observable<Ship> {
     const url = this.baseUrl + '/my/ships/' + shipIdentifier;
 
     return this.httpClient.get<Ship>(url, {
@@ -151,5 +153,55 @@ export class SpacetradersApiService {
       map((data: any) => data.data)
     )
   }
+
+  navigateTo(shipSymbol: string, waypointSymbol: string): Observable<{ nav: Nav, fuel: Fuel }> {
+    const url = this.baseUrl + '/my/ships/' + shipSymbol + '/navigate';
+
+    const body = {
+      waypointSymbol,
+    };
+    return this.httpClient.post<{ nav: Nav, fuel: Fuel }>(url, body, {
+      headers: new HttpHeaders({
+        'Authorization': `Bearer ${new BearerToken().tokenValue}`
+      })
+    }).pipe(
+      map((data: any) => data.data)
+    )
+  }
+
+  dockShip(shipSymbol: string): Observable<{ nav: Nav }> {
+    const url = this.baseUrl + '/my/ships/' + shipSymbol + '/dock';
+    return this.httpClient.post<{ nav: Nav }>(url, null, {
+      headers: new HttpHeaders({
+        'Authorization': `Bearer ${new BearerToken().tokenValue}`
+      })
+    }).pipe(
+      map((data: any) => data.data)
+    )
+  }
+
+  refuelShip(shipSymbol: string): Observable<{ agent: Agent, fuel: Fuel }> {
+    const url = this.baseUrl + '/my/ships/' + shipSymbol + '/refuel';
+    return this.httpClient.post<{ agent: Agent, fuel: Fuel }>(url, null, {
+      headers: new HttpHeaders({
+        'Authorization': `Bearer ${new BearerToken().tokenValue}`
+      })
+    }).pipe(
+      map((data: any) => data.data)
+    )
+  }
+
+  orbitWaypoint(shipSymbol: string): Observable<{ nav: Nav }> {
+    const url = this.baseUrl + '/my/ships/' + shipSymbol + '/orbit';
+    return this.httpClient.post<{ nav: Nav }>(url, null, {
+      headers: new HttpHeaders({
+        'Authorization': `Bearer ${new BearerToken().tokenValue}`
+      })
+    }).pipe(
+      map((data: any) => data.data)
+    )
+  }
+
+
 
 }

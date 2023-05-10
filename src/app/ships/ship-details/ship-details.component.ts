@@ -36,4 +36,28 @@ export class ShipDetailsComponent {
     this.router.navigate(['ships']);
   }
 
+  showWaypoint(waypointSymbol: string) {
+    this.router.navigate(['waypoint', waypointSymbol]);
+  }
+
+  dockShip() {
+    this.api.dockShip(this.ship().symbol).subscribe({
+      next: data => this.ship.mutate(value => value.nav = data.nav)
+    });
+  }
+
+  refuelShip() {
+    this.api.refuelShip(this.ship().symbol).subscribe({
+      next: data => this.ship.mutate(value => {
+        value.fuel = data.fuel;
+      })
+    });
+  }
+
+  orbitWaypoint() {
+    this.api.orbitWaypoint(this.ship().symbol).subscribe({
+      next: data => this.ship.mutate(value => value.nav = data.nav)
+    });
+  }
+
 }

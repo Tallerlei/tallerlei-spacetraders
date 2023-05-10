@@ -55,9 +55,13 @@ export class WaypointComponent {
       data: {},
     });
 
-    dialogRef.afterClosed().subscribe(result => {
-      console.log('The dialog was closed');
-      console.log('result')
+    dialogRef.afterClosed().subscribe(shipSymbol => {
+      if (shipSymbol) {
+        console.log(shipSymbol);
+        this.api.navigateTo(shipSymbol, this.waypoint().symbol).subscribe({
+          next: data => console.log(data)
+        })
+      }
     });
   }
 

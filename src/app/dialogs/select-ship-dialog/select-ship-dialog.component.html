@@ -1,12 +1,16 @@
-<h1 mat-dialog-title>Hi {{data.name}}</h1>
+<h1 mat-dialog-title>Select Ship</h1>
 <div mat-dialog-content>
-  <p>What's your favorite animal?</p>
+  <p>Which ship shall navigate to {{data.destination}}</p>
   <mat-form-field appearance="fill">
-    <mat-label>Favorite Animal</mat-label>
-    <input matInput [(ngModel)]="data.animal">
+    <mat-label>Ship for Navigation</mat-label>
+    <mat-select [(ngModel)]="selectedShip" name="ship">
+      <mat-option *ngFor="let ship of ships()" [value]="ship.symbol">
+        {{ship.symbol}}
+      </mat-option>
+    </mat-select>
   </mat-form-field>
 </div>
 <div mat-dialog-actions>
-  <button mat-button (click)="onNoClick()">No Thanks</button>
-  <button mat-button [mat-dialog-close]="data.animal" cdkFocusInitial>Ok</button>
+  <button mat-raised-button (click)="onNoClick()">Cancel</button>
+  <button mat-raised-button [mat-dialog-close]="selectedShip" cdkFocusInitial color="primary">Ok</button>
 </div>
