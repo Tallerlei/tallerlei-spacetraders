@@ -1,0 +1,58 @@
+<section class="">
+    <h1>Marketplace <button mat-button (click)="goToWaypoint()">{{ marketplace().symbol}}</button></h1>
+</section>
+<mat-accordion>
+    <mat-expansion-panel>
+        <mat-expansion-panel-header>
+            <mat-panel-title>
+                Exchange
+            </mat-panel-title>
+        </mat-expansion-panel-header>
+        <mat-list>
+        <mat-list-item *ngFor="let good of marketplace().exchange">
+            <mat-icon matListItemIcon>shopping_bag
+            </mat-icon>
+            <div matListItemTitle>{{good.name}}</div>
+            <div matListItemLine>{{good.description}}</div>
+        </mat-list-item>
+    </mat-list>
+    </mat-expansion-panel>
+    <mat-expansion-panel>
+        <mat-expansion-panel-header>
+            <mat-panel-title>
+                Transactions
+            </mat-panel-title>
+        </mat-expansion-panel-header>
+        <mat-list>
+        <mat-list-item *ngFor="let transaction of marketplace().transactions">
+            <mat-icon matListItemIcon>shopping_bag
+            </mat-icon>
+            <div matListItemTitle>{{transaction.type}}</div>
+            <div matListItemLine>{{transaction.shipSymbol}}</div>
+            <div matListItemLine>{{transaction.tradeSymbol}}</div>
+            <div matListItemLine>{{transaction.units}}</div>
+            <div matListItemLine>{{transaction.pricePerUnit}}</div>
+            <div matListItemLine>{{transaction.totalPrice}}</div>
+            <div matListItemLine>{{transaction.timestamp | date:'medium'}}</div>
+        </mat-list-item>
+    </mat-list>
+    </mat-expansion-panel>
+    <mat-expansion-panel>
+        <mat-expansion-panel-header>
+            <mat-panel-title>
+                Trade Goods
+            </mat-panel-title>
+        </mat-expansion-panel-header>
+        <mat-list>
+        <mat-list-item *ngFor="let tradeGood of marketplace().tradeGoods">
+            <mat-icon matListItemIcon>shopping_bag
+            </mat-icon>
+            <div matListItemTitle>SYMBOL: {{tradeGood.symbol}}</div>
+            <div matListItemLine>VOLUME: {{tradeGood.tradeVolume}}</div>
+            <div matListItemLine>SUPPLY: {{tradeGood.supply}}</div>
+            <div matListItemLine>BUY: {{tradeGood.purchasePrice}}</div>
+            <div matListItemLine>SELL: {{tradeGood.sellPrice}}</div>
+        </mat-list-item>
+    </mat-list>
+    </mat-expansion-panel>
+</mat-accordion>

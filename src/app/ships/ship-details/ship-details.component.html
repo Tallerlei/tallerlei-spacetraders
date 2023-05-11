@@ -47,20 +47,22 @@
                 </div>
                 <div class="label-and-text">
                     <label>inventory</label>
-                    <div *ngFor="let inventoryItem of ship().cargo.inventory">
-                        <div class="label-and-text">
-                            <label>Name</label>
-                            <div>{{ inventoryItem.name}}</div>
-                        </div>
-                        <div class="label-and-text">
-                            <label>Description</label>
-                            <div>{{ inventoryItem.description}}</div>
-                        </div>
-                        <div class="label-and-text">
-                            <label>Units</label>
-                            <div>{{ inventoryItem.units}}</div>
-                        </div>
+                    <div>
+                        <div *ngFor="let inventoryItem of ship().cargo.inventory">
+                            <div class="label-and-text">
+                                <label>Name</label>
+                                <div>{{ inventoryItem.name}}</div>
+                            </div>
+                            <div class="label-and-text">
+                                <label>Description</label>
+                                <div>{{ inventoryItem.description}}</div>
+                            </div>
+                            <div class="label-and-text">
+                                <label>Units</label>
+                                <div>{{ inventoryItem.units}}</div>
+                            </div>
 
+                        </div>
                     </div>
                 </div>
             </div>
@@ -96,5 +98,9 @@
             [disabled]="ship().nav.status !== 'DOCKED'">Refuel Ship</button>
         <button mat-raised-button color="primary" (click)="orbitWaypoint()"
             [disabled]="ship().nav.status !== 'DOCKED'">Orbit Wayoint</button>
+    </mat-card-actions>
+    <mat-card-actions>
+        <button mat-raised-button color="primary" (click)="extractMinerals()"
+            [disabled]="extractDisabled">{{extractCooldown ? 'Extracting ' + extractCooldown : 'Extract' }}</button>
     </mat-card-actions>
 </mat-card>

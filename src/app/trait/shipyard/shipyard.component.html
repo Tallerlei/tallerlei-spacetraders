@@ -1,3 +1,7 @@
+<section class="">
+    <h1>Marketplace <button mat-button (click)="goToWaypoint()">{{ shipyard().symbol}}</button></h1>
+</section>
+
 <mat-list>
     <div mat-subheader>Ships</div>
     <mat-list-item *ngFor="let shipType of shipyard().shipTypes">

@@ -7,5 +7,5 @@ export class Contract {
     terms: Terms = new Terms();
     accepted: boolean = false;
     fulfilled: boolean = false;
-    expiration: Date = new Date();
+    expiration: string = '';
 }

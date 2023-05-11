@@ -65,6 +65,10 @@ export class WaypointComponent {
     });
   }
 
+  checkMarketplace() {
+    this.router.navigate(['marketplace', this.waypoint().symbol])
+  }
+
   get isHome(): boolean {
     return this.waypoint().symbol === this.session.agent().headquarters;
   }

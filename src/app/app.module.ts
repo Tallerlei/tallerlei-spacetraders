@@ -23,6 +23,9 @@ import { ShipyardComponent } from './trait/shipyard/shipyard.component';
 import { ShipsComponent } from './ships/ship-list.component';
 import { ShipDetailsComponent } from './ships/ship-details/ship-details.component';
 import { SelectShipDialogComponent } from './dialogs/select-ship-dialog/select-ship-dialog.component';
+import { GlobalHttpInterceptorService } from './shared/services/global-http-interceptor.service';
+import { HTTP_INTERCEPTORS } from '@angular/common/http';
+import { MarketplaceComponent } from './marketplace/marketplace.component';
 
 @NgModule({
   declarations: [
@@ -39,6 +42,7 @@ import { SelectShipDialogComponent } from './dialogs/select-ship-dialog/select-s
     ShipsComponent,
     ShipDetailsComponent,
     SelectShipDialogComponent,
+    MarketplaceComponent,
   ],
   imports: [
     AngularMaterialModule,
@@ -46,7 +50,9 @@ import { SelectShipDialogComponent } from './dialogs/select-ship-dialog/select-s
     AppRoutingModule,
     CoreModule
   ],
-  providers: [],
+  providers: [
+    { provide: HTTP_INTERCEPTORS, useClass: GlobalHttpInterceptorService, multi: true  }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

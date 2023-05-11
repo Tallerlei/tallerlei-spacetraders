@@ -11,19 +11,21 @@ import { WaypointListComponent } from './waypoint/waypoint-list/waypoint-list.co
 import { ShipyardComponent } from './trait/shipyard/shipyard.component';
 import { ShipsComponent } from './ships/ship-list.component';
 import { ShipDetailsComponent } from './ships/ship-details/ship-details.component';
+import { MarketplaceComponent } from './marketplace/marketplace.component';
 
 const routes: Routes = [
 {path: '', redirectTo: 'start', outlet: 'side', pathMatch: 'full'},
   { path: 'start', component: StartScreenComponent, outlet: 'side' },
   { path: 'trait', component: TraitComponent },
   { path: 'orbit', component: OrbitComponent },
-  { path: 'contracts', component: ContractListComponent },
   { path: 'contract/:id', component: ContractDetailComponent },
-  { path: 'waypoints/:system', component: WaypointListComponent },
-  { path: 'shipyard/:waypointId', component: ShipyardComponent },
+  { path: 'contracts', component: ContractListComponent },
+  { path: 'marketplace/:waypointSymbol', component: MarketplaceComponent },
   { path: 'ships', component: ShipsComponent },
   { path: 'ships/:id', component: ShipDetailsComponent },
+  { path: 'shipyard/:waypointId', component: ShipyardComponent },
   { path: 'waypoint/:id', component: WaypointComponent },
+  { path: 'waypoints/:system', component: WaypointListComponent },
   { path: '**', component: PageNotFoundComponent },
 ];
 

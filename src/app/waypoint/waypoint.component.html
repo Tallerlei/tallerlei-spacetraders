@@ -25,12 +25,17 @@
     <mat-card-content>
         <div>Faction: {{waypoint().faction.symbol}}</div>
         <div *ngFor="let trait of waypoint().traits">
-            <div *ngIf="trait.name === 'Shipyard'; else defaultTrait">
-                <button mat-button (click)="checkShipyard()">Shipyard</button>
+            <div [ngSwitch]="trait.symbol">
+                <div *ngSwitchCase="'SHIPYARD'">
+                    <button mat-button (click)="checkShipyard()">{{trait.name}}</button>
+                </div>
+                <div *ngSwitchCase="'MARKETPLACE'">
+                    <button mat-button (click)="checkMarketplace()">{{trait.name}}</button>
+                </div>
+                <div *ngSwitchDefault>
+                    {{trait.name}}
+                </div>
             </div>
-            <ng-template #defaultTrait>
-                {{trait.name}}
-            </ng-template>
         </div>
         <button mat-raised-button *ngFor="let orbital of waypoint().orbitals"
             (click)="goToOrbital(orbital)">{{orbital.symbol}}</button>

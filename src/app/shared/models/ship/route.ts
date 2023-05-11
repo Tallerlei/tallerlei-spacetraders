@@ -1,9 +1,9 @@
 import { Waypoint } from "../waypoint/waypoint";
 
 export class Route {
-    arrival: Date = new Date();
+    arrival: string = '';
     departure: Waypoint = new Waypoint();
-    departureTime: Date = new Date();
+    departureTime: string = '';
     destination: Waypoint = new Waypoint();
     status: string = '';
     systemSymbol: string = '';

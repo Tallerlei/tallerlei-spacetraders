@@ -10,9 +10,14 @@ import { Waypoint } from 'src/app/shared/models/waypoint/waypoint';
 import { Contract } from 'src/app/shared/models/contract/contract';
 import { ShipType } from 'src/app/shared/models/ship/ship-type';
 import { Ship } from 'src/app/shared/models/ship/ship';
-import { Transaction } from 'src/app/shared/models/transaction/transaction';
 import { Nav } from 'src/app/shared/models/ship/nav';
 import { Fuel } from 'src/app/shared/models/ship/fuel';
+import { Cargo } from 'src/app/shared/models/cargo/cargo';
+import { Cooldown } from 'src/app/shared/models/ship/cooldown';
+import { Extraction } from 'src/app/shared/models/ship/extraction';
+import { Marketplace } from 'src/app/shared/models/market/marketplace';
+import { ShipyardTransaction } from 'src/app/shared/models/transaction/shipyard-transaction';
+import { MarketTransaction } from 'src/app/shared/models/transaction/market-transaction';
 @Injectable({
   providedIn: 'root'
 })
@@ -34,9 +39,9 @@ export class SpacetradersApiService {
     )
   }
 
-  getWaypoint(waypointIdentifier: string): Observable<Waypoint> {
-    const systemSymbol = UtilitiesService.getTextBeforeLastIndexOf(waypointIdentifier, '-');
-    const url = this.baseUrl + '/systems/' + systemSymbol + '/wayPoints/' + waypointIdentifier;
+  getWaypoint(waypointSymbol: string): Observable<Waypoint> {
+    const systemSymbol = UtilitiesService.getTextBeforeLastIndexOf(waypointSymbol, '-');
+    const url = this.baseUrl + '/systems/' + systemSymbol + '/wayPoints/' + waypointSymbol;
     return this.httpClient.get<Waypoint>(url, {
       headers: new HttpHeaders({
         'Authorization': `Bearer ${new BearerToken().tokenValue}`
@@ -46,8 +51,8 @@ export class SpacetradersApiService {
     )
   }
 
-  getWaypoints(systemIdentifier: string): Observable<Waypoint[]> {
-    const url = this.baseUrl + '/systems/' + systemIdentifier + '/waypoints';
+  getWaypoints(systemSymbol: string): Observable<Waypoint[]> {
+    const url = this.baseUrl + '/systems/' + systemSymbol + '/waypoints';
     return this.httpClient.get<Waypoint[]>(url, {
       headers: new HttpHeaders({
         'Authorization': `Bearer ${new BearerToken().tokenValue}`
@@ -57,8 +62,8 @@ export class SpacetradersApiService {
     )
   }
 
-  getSystem(systemIdentifier: string): Observable<Waypoint[]> {
-    const url = this.baseUrl + '/systems/' + systemIdentifier;
+  getSystem(systemSymbol: string): Observable<Waypoint[]> {
+    const url = this.baseUrl + '/systems/' + systemSymbol;
     return this.httpClient.get<Waypoint[]>(url, {
       headers: new HttpHeaders({
         'Authorization': `Bearer ${new BearerToken().tokenValue}`
@@ -101,9 +106,9 @@ export class SpacetradersApiService {
     )
   }
 
-  checkShipyard(waypointIdentifier: string): Observable<{ symbol: string, shipTypes: ShipType[] }> {
-    const systemSymbol = UtilitiesService.getTextBeforeLastIndexOf(waypointIdentifier, '-');
-    const url = this.baseUrl + '/systems/' + systemSymbol + '/waypoints/' + waypointIdentifier + '/shipyard';
+  checkShipyard(waypointSymbol: string): Observable<{ symbol: string, shipTypes: ShipType[] }> {
+    const systemSymbol = UtilitiesService.getTextBeforeLastIndexOf(waypointSymbol, '-');
+    const url = this.baseUrl + '/systems/' + systemSymbol + '/waypoints/' + waypointSymbol + '/shipyard';
     return this.httpClient.get<{ symbol: string, shipTypes: ShipType[] }>(url, {
       headers: new HttpHeaders({
         'Authorization': `Bearer ${new BearerToken().tokenValue}`
@@ -113,15 +118,15 @@ export class SpacetradersApiService {
     )
   }
 
-  buyShip(shipType: ShipType, waypointIdentifier: string): Observable<{ agent: Agent, ship: Ship, transaction: Transaction }> {
+  buyShip(shipType: ShipType, waypointSymbol: string): Observable<{ agent: Agent, ship: Ship, transaction: ShipyardTransaction }> {
     const url = this.baseUrl + '/my/ships';
 
     const body = {
       shipType: shipType.type,
-      waypointSymbol: waypointIdentifier,
+      waypointSymbol: waypointSymbol,
     };
 
-    return this.httpClient.post<{ agent: Agent, ship: Ship, transaction: Transaction }>(url, body, {
+    return this.httpClient.post<{ agent: Agent, ship: Ship, transaction: ShipyardTransaction }>(url, body, {
       headers: new HttpHeaders({
         'Authorization': `Bearer ${new BearerToken().tokenValue}`
       })
@@ -142,8 +147,8 @@ export class SpacetradersApiService {
     )
   }
 
-  getShip(shipIdentifier: string): Observable<Ship> {
-    const url = this.baseUrl + '/my/ships/' + shipIdentifier;
+  getShip(shipSymbol: string): Observable<Ship> {
+    const url = this.baseUrl + '/my/ships/' + shipSymbol;
 
     return this.httpClient.get<Ship>(url, {
       headers: new HttpHeaders({
@@ -202,6 +207,39 @@ export class SpacetradersApiService {
     )
   }
 
+  extractMinerals(shipSymbol: string): Observable<{ cargo: Cargo, cooldown: Cooldown, extraction: Extraction }> {
+    const url = this.baseUrl + '/my/ships/' + shipSymbol + '/extract';
+    return this.httpClient.post<{ cargo: Cargo, cooldown: Cooldown, extraction: Extraction }>(url, null, {
+      headers: new HttpHeaders({
+        'Authorization': `Bearer ${new BearerToken().tokenValue}`
+      })
+    }).pipe(
+      map((data: any) => data.data)
+    )
+  }
+
+  getCooldown(shipSymbol: string): Observable<Cooldown> {
+    const url = this.baseUrl + '/my/ships/' + shipSymbol + '/cooldown';
+    return this.httpClient.get<Cooldown>(url, {
+      headers: new HttpHeaders({
+        'Authorization': `Bearer ${new BearerToken().tokenValue}`
+      })
+    }).pipe(
+      map((data: any) => data ? data.data : null)
+    )
+  }
+
+  checkMarketplace(waypointSymbol: string): Observable<Marketplace> {
+    const systemSymbol = UtilitiesService.getTextBeforeLastIndexOf(waypointSymbol, '-');
+    const url = this.baseUrl + '/systems/' + systemSymbol + '/waypoints/' + waypointSymbol + '/market';
+    return this.httpClient.get<Marketplace>(url, {
+      headers: new HttpHeaders({
+        'Authorization': `Bearer ${new BearerToken().tokenValue}`
+      })
+    }).pipe(
+      map((data: any) => data ? data.data : null)
+    )
+  }
 
 
 }
