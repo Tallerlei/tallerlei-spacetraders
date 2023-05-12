@@ -17,7 +17,7 @@ export class GlobalHttpInterceptorService implements HttpInterceptor {
 
     return next.handle(req).pipe(
       catchError((error) => {
-        this._snackBar.open(error.error.error.message, 'dismiss', { duration: 3000 });
+        this._snackBar.open(error.error.error.message, 'dismiss', { duration: 5000 });
         return throwError(() => error);
       })
     )

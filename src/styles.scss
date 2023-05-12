@@ -7,6 +7,47 @@ $dark-primary-text: rgba(black, 0.87);
 
 $light-primary-text: white;
 
+.highlight-date {
+  background: red;
+}
+
+
+.mat-elevation-z7 {
+  box-shadow: 0 4px 5px -2px #0003, 0 7px 10px 1px #00000024, 0 2px 16px 1px #0000001f;
+}
+
+
+html,
+body,
+app-root {
+  height: 100%;
+}
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+app-root {
+  display: flex;
+  flex-direction: column;
+}
+
+.sidenav-container {
+  min-width: 300px;
+  max-width: 300px;
+}
+
+.main-container {
+  width: 100%;
+  flex: 1;
+}
+
+.label-and-text {
+  label {
+    min-width: 150px;
+  }
+
+  display: flex;
+  flex-direction: row;
+  margin-bottom: 6px;
+}
 $mat-primary: (
         50: #e8eaf6,
         100: #c5cae9,
@@ -89,45 +130,3 @@ $theme: mat.define-light-theme((
 ));
 
 @include mat.all-component-themes($theme);
-
-.highlight-date {
-  background: red;
-}
-
-
-.mat-elevation-z7 {
-  box-shadow: 0 4px 5px -2px #0003, 0 7px 10px 1px #00000024, 0 2px 16px 1px #0000001f;
-}
-
-
-html,
-body,
-app-root {
-  height: 100%;
-}
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
-
-app-root {
-  display: flex;
-  flex-direction: column;
-}
-
-.sidenav-container {
-  min-width: 300px;
-  max-width: 300px;
-}
-
-.main-container {
-  width: 100%;
-  flex: 1;
-}
-
-.label-and-text {
-  label {
-    min-width: 150px;
-  }
-
-  display: flex;
-  flex-direction: row;
-  margin-bottom: 6px;
-}

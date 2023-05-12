@@ -1,4 +1,4 @@
-<mat-card class="example-card" *ngIf="!loading && ship().symbol">
+<mat-card class="example-card" *ngIf="!loading() && ship().symbol">
     <mat-card-header>
         <mat-card-title mat>
             {{ ship().registration.name }} ({{ ship().registration.factionSymbol }})
@@ -11,6 +11,7 @@
         <div class="label-and-text">
             <label>NAV > Status</label>
             <div>{{ship().nav.status}}</div>
+            <div *ngIf="ship().nav.status === 'IN_TRANSIT'">{{arrival()}}</div>
         </div>
         <div class="label-and-text">
             <label>NAV > Waypoint</label>
@@ -42,7 +43,7 @@
                     <div>{{ ship().cargo.capacity}}</div>
                 </div>
                 <div class="label-and-text">
-                    <label>capacity</label>
+                    <label>units</label>
                     <div>{{ ship().cargo.units}}</div>
                 </div>
                 <div class="label-and-text">
@@ -101,6 +102,7 @@
     </mat-card-actions>
     <mat-card-actions>
         <button mat-raised-button color="primary" (click)="extractMinerals()"
-            [disabled]="extractDisabled">{{extractCooldown ? 'Extracting ' + extractCooldown : 'Extract' }}</button>
+            [disabled]="extractDisabled">{{extractCooldown() > 0 ? 'Extracting ' + extractCooldown() : 'Extract' }}</button>
+        <button *ngIf="hasMarket" mat-raised-button color="primary" (click)="goToMarket()" [disabled]="ship().nav.status !== 'DOCKED'">Go To Market</button>
     </mat-card-actions>
 </mat-card>

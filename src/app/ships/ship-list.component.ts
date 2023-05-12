@@ -2,6 +2,7 @@ import { Component, WritableSignal, signal } from '@angular/core';
 import { Ship } from '../shared/models/ship/ship';
 import { SpacetradersApiService } from '../core/services/spacetraders-api.service';
 import { Router } from '@angular/router';
+import { FleetService } from './fleet.service';
 
 @Component({
   selector: 'app-ships',
@@ -13,6 +14,7 @@ export class ShipsComponent {
 
   constructor(
     private api: SpacetradersApiService,
+    private fleetService: FleetService,
     private router: Router,
   ) {
     this.api.myShips().subscribe(ships => this.ships.set(ships));

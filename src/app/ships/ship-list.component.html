@@ -1,5 +1,5 @@
 <ng-container *ngFor="let ship of ships()">
 
-    <app-ship-details [ship]="shipSignal(ship)" [fromList]="true"></app-ship-details>
+    <app-ship-details [id]="ship.symbol" [fromList]="true"></app-ship-details>
 
 </ng-container>

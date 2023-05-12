@@ -26,6 +26,7 @@ import { SelectShipDialogComponent } from './dialogs/select-ship-dialog/select-s
 import { GlobalHttpInterceptorService } from './shared/services/global-http-interceptor.service';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { MarketplaceComponent } from './marketplace/marketplace.component';
+import { MarketplaceTradeComponent } from './marketplace/marketplace-trade/marketplace-trade.component';
 
 @NgModule({
   declarations: [
@@ -43,7 +44,7 @@ import { MarketplaceComponent } from './marketplace/marketplace.component';
     ShipDetailsComponent,
     SelectShipDialogComponent,
     MarketplaceComponent,
-  ],
+  MarketplaceTradeComponent,],
   imports: [
     AngularMaterialModule,
    CommonModule,

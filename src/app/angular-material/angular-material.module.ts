@@ -14,6 +14,7 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatExpansionModule } from '@angular/material/expansion';
+import { MatInputModule } from '@angular/material/input';
 
 
 @NgModule({
@@ -27,6 +28,7 @@ import { MatExpansionModule } from '@angular/material/expansion';
     MatFormFieldModule,
     MatGridListModule,
     MatIconModule,
+    MatInputModule,
     MatListModule,
     MatProgressBarModule,
     MatSelectModule,
@@ -44,6 +46,7 @@ import { MatExpansionModule } from '@angular/material/expansion';
     MatFormFieldModule,
     MatGridListModule,
     MatIconModule,
+    MatInputModule,
     MatListModule,
     MatProgressBarModule,
     MatSelectModule,

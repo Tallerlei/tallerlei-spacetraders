@@ -1,0 +1,27 @@
+<mat-list-item [formGroup]="form">
+  <mat-icon matListItemIcon>shopping_bag
+  </mat-icon>
+  <div matListItemTitle>SYMBOL: {{tradeGood.symbol}}</div>
+  <div matListItemLine>VOLUME: {{tradeGood.tradeVolume}}</div>
+  <div matListItemLine>SUPPLY: {{tradeGood.supply}}</div>
+  <ng-container *ngIf="ship.symbol !== ''">
+    <div>BUY: {{tradeGood.purchasePrice}}
+    </div>
+    <mat-form-field appearance="fill">
+      <mat-label>Amount</mat-label>
+      <input matInput
+        formControlName="buy_amount"
+        type="number" />
+    </mat-form-field> <button mat-raised-button (click)="buyGood(tradeGood)">BUY</button>
+    <ng-container *ngIf="hasCargo(tradeGood)">
+      <div>SELL ({{unitsInInventory(tradeGood)}}): {{tradeGood.sellPrice}}
+      </div>
+      <mat-form-field appearance="fill">
+        <mat-label>Amount</mat-label>
+        <input matInput
+          formControlName="sell_amount"
+          type="number" [max]="unitsInInventory(tradeGood)" />
+      </mat-form-field><button mat-raised-button color="primary" (click)="sellGood(tradeGood)">SELL</button>
+    </ng-container>
+  </ng-container>
+</mat-list-item>
