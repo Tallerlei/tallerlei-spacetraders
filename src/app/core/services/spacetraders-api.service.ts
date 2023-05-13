@@ -317,4 +317,56 @@ export class SpacetradersApiService {
       )
       .pipe(map((data: any) => (data ? data.data : null)));
   }
+
+  fulfillContract(
+    contractIdentifier: string
+  ): Observable<{
+    agent: Agent;
+    cargo: Cargo;
+    transaction: MarketTransaction;
+  }> {
+    const url = this.baseUrl + '/my/contracts/'+ contractIdentifier + '/fulfill'
+
+    return this.httpClient
+      .post<{ agent: Agent; cargo: Cargo; transaction: MarketTransaction }>(
+        url,
+        null,
+        {
+          headers: new HttpHeaders({
+            Authorization: `Bearer ${new BearerToken().tokenValue}`,
+          }),
+        }
+      )
+      .pipe(map((data: any) => (data ? data.data : null)));
+  }
+
+  deliverGoods(
+    contractIdentifier: string,
+    shipSymbol: string,
+    tradeSymbol: string,
+    units: number
+  ): Observable<{
+    agent: Agent;
+    cargo: Cargo;
+    transaction: MarketTransaction;
+  }> {
+    const url = this.baseUrl + '/my/contracts/' + contractIdentifier + '/deliver'
+
+    const body = {
+      shipSymbol,
+      tradeSymbol,
+      units: units,
+    };
+    return this.httpClient
+      .post<{ agent: Agent; cargo: Cargo; transaction: MarketTransaction }>(
+        url,
+        body,
+        {
+          headers: new HttpHeaders({
+            Authorization: `Bearer ${new BearerToken().tokenValue}`,
+          }),
+        }
+      )
+      .pipe(map((data: any) => (data ? data.data : null)));
+  }
 }

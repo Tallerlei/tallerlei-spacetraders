@@ -78,5 +78,9 @@
         <!-- <button mat-raised-button color="secondary" (click)="showContractDetails()">Back</button> -->
         <button mat-raised-button color="primary" (click)="acceptContract()"
             [disabled]="contract().accepted">Accept</button>
+        <button mat-raised-button color="primary" (click)="deliverGoods()"
+            [disabled]="!canDeliver">Deliver</button>
+        <button mat-raised-button color="primary" (click)="fulfillContract()"
+            [disabled]="!contract().accepted">Fulfill</button>
     </mat-card-actions>
 </mat-card>
