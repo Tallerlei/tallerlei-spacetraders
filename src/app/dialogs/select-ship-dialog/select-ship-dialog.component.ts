@@ -1,7 +1,7 @@
 import { Component, Inject, WritableSignal, signal } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { SpacetradersApiService } from 'src/app/core/services/spacetraders-api.service';
-import { Ship } from 'src/app/shared/models/ship/ship';
+import { MyShip } from 'src/app/shared/models/ship/my-ship';
 import { Waypoint } from 'src/app/shared/models/waypoint/waypoint';
 
 @Component({
@@ -10,8 +10,8 @@ import { Waypoint } from 'src/app/shared/models/waypoint/waypoint';
   styleUrls: ['./select-ship-dialog.component.scss']
 })
 export class SelectShipDialogComponent {
-  ships: WritableSignal<Ship[]> = signal([]);
-  selectedShip: Ship = new Ship();
+  ships: WritableSignal<MyShip[]> = signal([]);
+  selectedShip: MyShip = new MyShip();
 
   constructor(
     public dialogRef: MatDialogRef<SelectShipDialogComponent>,

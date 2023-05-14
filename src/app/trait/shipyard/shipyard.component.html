@@ -4,9 +4,21 @@
 
 <mat-list>
     <div mat-subheader>Ships</div>
-    <mat-list-item *ngFor="let shipType of shipyard().shipTypes">
-        <mat-icon matListItemIcon>rocket</mat-icon>
-        <div matListItemTitle>{{shipType.type}}<button mat-button (click)="buyShip(shipType)">Buy</button></div>
+    <ng-container *ngIf="shipyard().ships; else shipTypesOnly">
 
-    </mat-list-item>
+        <mat-list-item *ngFor="let ship of shipyard().ships">
+            <mat-icon matListItemIcon>rocket</mat-icon>
+            <div matListItemTitle>{{ship.name}}</div>
+            <div matListItemLine>{{ship.description}}</div>
+            <div matListItemLine>{{ship.purchasePrice}}<button mat-raised-button (click)="buyShip(ship)">Buy</button></div>
+        </mat-list-item>
+
+    </ng-container>
+    <ng-template #shipTypesOnly>
+        <mat-list-item *ngFor="let shipType of shipyard().shipTypes">
+            <mat-icon matListItemIcon>rocket</mat-icon>
+            <div matListItemTitle>{{shipType.type}}<button mat-raised-button (click)="buyShip(shipType)">Buy</button>
+            </div>
+        </mat-list-item>
+    </ng-template>
 </mat-list>

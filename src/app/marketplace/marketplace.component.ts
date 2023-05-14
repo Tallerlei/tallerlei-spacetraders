@@ -3,7 +3,7 @@ import { SpacetradersApiService } from '../core/services/spacetraders-api.servic
 import { Router } from '@angular/router';
 import { Marketplace } from '../shared/models/market/marketplace';
 import { TradeGood } from '../shared/models/market/tradegood';
-import { Ship } from '../shared/models/ship/ship';
+import { MyShip } from '../shared/models/ship/my-ship';
 
 @Component({
   selector: 'app-marketplace',
@@ -13,7 +13,7 @@ import { Ship } from '../shared/models/ship/ship';
 export class MarketplaceComponent {
   marketplace: any = signal(new Marketplace());
   _waypointSymbol: string = '';
-  shipInMarket: WritableSignal<Ship> = signal(new Ship());
+  shipInMarket: WritableSignal<MyShip> = signal(new MyShip());
   @Input()
   set waypointSymbol(waypointSymbol: string) {
     this.api.checkMarketplace(waypointSymbol).subscribe((marketplace) => {
@@ -24,7 +24,7 @@ export class MarketplaceComponent {
   constructor(private api: SpacetradersApiService, private router: Router) {
     if (this.router.getCurrentNavigation()?.extras.state !== undefined) {
       this.shipInMarket.set(
-        <Ship>this.router.getCurrentNavigation()?.extras.state
+        <MyShip>this.router.getCurrentNavigation()?.extras.state
       );
     }
   }

@@ -2,7 +2,7 @@ import { Component, Input } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { SpacetradersApiService } from 'src/app/core/services/spacetraders-api.service';
 import { TradeGood } from 'src/app/shared/models/market/tradegood';
-import { Ship } from 'src/app/shared/models/ship/ship';
+import { MyShip } from 'src/app/shared/models/ship/my-ship';
 import { MessageService } from 'src/app/shared/services/message.service';
 
 @Component({
@@ -12,7 +12,7 @@ import { MessageService } from 'src/app/shared/services/message.service';
 })
 export class MarketplaceTradeComponent {
   @Input() tradeGood: TradeGood = new TradeGood();
-  @Input() ship: Ship = new Ship();
+  @Input() ship: MyShip = new MyShip();
   form: FormGroup;
   constructor(
     private api: SpacetradersApiService,

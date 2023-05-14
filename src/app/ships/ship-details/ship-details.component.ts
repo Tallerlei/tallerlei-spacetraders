@@ -9,7 +9,7 @@ import {
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import { SpacetradersApiService } from 'src/app/core/services/spacetraders-api.service';
-import { Ship } from 'src/app/shared/models/ship/ship';
+import { MyShip } from 'src/app/shared/models/ship/my-ship';
 import { Waypoint } from 'src/app/shared/models/waypoint/waypoint';
 
 @Component({
@@ -20,7 +20,7 @@ import { Waypoint } from 'src/app/shared/models/waypoint/waypoint';
 export class ShipDetailsComponent {
   extractCooldown = signal(0);
   arrival = signal(0);
-  ship = signal(new Ship());
+  ship = signal(new MyShip());
   @Input() fromList: boolean = false;
   @Input() id: string = '';
 
@@ -45,11 +45,18 @@ export class ShipDetailsComponent {
         this.api.getWaypoint(this.ship().nav.waypointSymbol).subscribe({
           next: (waypoint) => (this.waypoint = waypoint),
         });
-        if (this.ship().nav.flightMode === 'IN_TRANSIT') {
+        if (this.ship().nav.status === 'IN_TRANSIT') {
           this.startInterval(this.ship().nav.route.arrival, this.arrival);
         }
       }
     });
+
+    effect(() => {
+      console.log('TRIGGERED');
+      if (!this.extractDisabled) {
+        this.extractMinerals();
+      }
+    })
   }
 
   ngOnInit() {
@@ -104,10 +111,10 @@ export class ShipDetailsComponent {
           value.cargo = data.cargo;
           this._snackBar.open(
             'Extracted ' +
-              data.extraction.yield.units +
-              ' units of ' +
-              data.extraction.yield.symbol +
-              '.',
+            data.extraction.yield.units +
+            ' units of ' +
+            data.extraction.yield.symbol +
+            '.',
             'dismiss',
             { duration: 3000 }
           );
@@ -142,7 +149,7 @@ export class ShipDetailsComponent {
     return (
       this.waypoint &&
       this.waypoint.traits.find((trait) => trait.symbol === 'MARKETPLACE') !==
-        undefined
+      undefined
     );
   }
 

@@ -1,6 +1,6 @@
 <h1 mat-dialog-title>Select Ship</h1>
 <div mat-dialog-content>
-  <p>Which ship shall navigate to {{data.destination}}</p>
+  <p>Which ship shall navigate to {{data.destination.symbol}}</p>
   <mat-form-field appearance="fill">
     <mat-label>Ship for Navigation</mat-label>
     <mat-select [(ngModel)]="selectedShip" name="ship">

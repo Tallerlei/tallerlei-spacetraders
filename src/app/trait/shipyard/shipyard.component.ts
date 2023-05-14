@@ -1,7 +1,10 @@
 import { Component, Input, WritableSignal, signal } from '@angular/core';
 import { Router } from '@angular/router';
 import { SpacetradersApiService } from 'src/app/core/services/spacetraders-api.service';
+import { MarketShip } from 'src/app/shared/models/ship/market-ship';
+import { MyShip } from 'src/app/shared/models/ship/my-ship';
 import { ShipType } from 'src/app/shared/models/ship/ship-type';
+import { Transaction } from 'src/app/shared/models/transaction/transaction';
 
 @Component({
   selector: 'app-shipyard',
@@ -16,7 +19,7 @@ export class ShipyardComponent {
   }
 
   _waypointSymbol: string = ''
-  shipyard: WritableSignal<{ symbol: string, shipTypes: ShipType[] }> = signal({ symbol: '', shipTypes: [] })
+  shipyard: WritableSignal<{ symbol: string; shipTypes: ShipType[], ships?: MarketShip[], transactions?: Transaction[] }> = signal({ symbol: '', shipTypes: [] })
 
   constructor(
     private api: SpacetradersApiService,

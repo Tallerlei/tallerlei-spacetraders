@@ -8,17 +8,13 @@ import { Mount } from "./mount";
 import { Nav } from "./nav";
 import { Reactor } from "./reactor";
 import { Registration } from "./registration";
+import { ShipBase } from "./ship-base";
 
-export class Ship {
+export class MyShip extends ShipBase {
     cargo: Cargo = new Cargo();
     crew: Crew = new Crew();
-    engine: Engine = new Engine();
-    frame: Frame = new Frame();
     fuel: Fuel = new Fuel();
-    modules: Module[] = [];
-    mounts: Mount[] = [];
     nav: Nav = new Nav();
-    reactor: Reactor = new Reactor();
     registration: Registration = new Registration();
     symbol: string = '';
 }

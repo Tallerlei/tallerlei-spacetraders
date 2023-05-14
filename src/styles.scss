@@ -33,14 +33,21 @@ app-root {
   flex-direction: column;
 }
 
-.sidenav-container {
-  min-width: 300px;
-  max-width: 300px;
-}
 
 .main-container {
   width: 100%;
   flex: 1;
+}
+
+.sidenav-container {
+  padding: 12px;
+  min-width: 300px;
+  max-width: 300px;
+}
+
+main {
+
+  padding: 12px;
 }
 
 .label-and-text {

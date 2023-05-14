@@ -52,7 +52,7 @@ export class WaypointComponent {
 
   navigateTo(): void {
     const dialogRef = this.dialog.open(SelectShipDialogComponent, {
-      data: {},
+      data: { destination: this.waypoint() },
     });
 
     dialogRef.afterClosed().subscribe(shipSymbol => {

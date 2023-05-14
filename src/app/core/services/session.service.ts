@@ -1,4 +1,4 @@
-import { Injectable, Signal, signal } from '@angular/core';
+import { Injectable, signal } from '@angular/core';
 import { Agent } from 'src/app/shared/models/agent/agent';
 
 @Injectable({
@@ -6,5 +6,6 @@ import { Agent } from 'src/app/shared/models/agent/agent';
 })
 export class SessionService {
   agent = signal(new Agent());
+  configuration: any = {};
   constructor() { }
 }

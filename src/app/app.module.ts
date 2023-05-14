@@ -12,7 +12,7 @@ import { CoreModule } from './core/core.module';
 import { AppComponent } from './app.component';
 import { PageNotFoundComponent } from './shared/not-found/not-found.component';
 import { OrbitComponent } from './orbit/orbit.component';
-import { StartScreenComponent } from './start-screen/start-screen.component';
+import { AgentComponent } from './agent/agent.component';
 import { TraitComponent } from './trait/trait.component';
 import { CommonModule } from '@angular/common';
 import { WaypointComponent } from './waypoint/waypoint.component';
@@ -28,13 +28,14 @@ import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { MarketplaceComponent } from './marketplace/marketplace.component';
 import { MarketplaceTradeComponent } from './marketplace/marketplace-trade/marketplace-trade.component';
 import { SelectDeliveryDialogComponent } from './dialogs/select-delivery-dialog/select-delivery-dialog.component';
+import { StartScreenComponent } from './start-screen/start-screen.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     PageNotFoundComponent,
     OrbitComponent,
-    StartScreenComponent,
+    AgentComponent,
     TraitComponent,
     WaypointComponent,
     ContractListComponent,
@@ -45,7 +46,7 @@ import { SelectDeliveryDialogComponent } from './dialogs/select-delivery-dialog/
     ShipDetailsComponent,
     SelectShipDialogComponent,
     MarketplaceComponent,
-  MarketplaceTradeComponent,SelectDeliveryDialogComponent,],
+  MarketplaceTradeComponent,SelectDeliveryDialogComponent,StartScreenComponent,],
   imports: [
     AngularMaterialModule,
    CommonModule,

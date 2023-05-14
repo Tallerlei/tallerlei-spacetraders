@@ -1,1 +1,30 @@
-<p>select-delivery works!</p>
+<h1 mat-dialog-title>Select Delivery</h1>
+<div mat-dialog-content>
+    <p>What shall be delivered</p>
+    <mat-form-field appearance="fill">
+        <mat-label>Ship for Delivery</mat-label>
+        <mat-select [(ngModel)]="selectedShip" name="ship">
+          <mat-option *ngFor="let ship of data.ships" [value]="ship">
+            {{ship.symbol}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    <mat-form-field appearance="fill">
+        <mat-label>Delivery Good</mat-label>
+        <mat-select [(ngModel)]="selectedSymbol" name="good">
+            <mat-option *ngFor="let inventoryItem of selectedShip.cargo.inventory" [value]="inventoryItem.symbol">
+                {{inventoryItem.name}}
+            </mat-option>
+        </mat-select>
+    </mat-form-field>
+    <mat-form-field appearance="fill">
+        <mat-label>Amount {{selectedShip ? maxAmount : ''}}</mat-label>
+        <input [(ngModel)]="amount" matInput name="good" type="number" />
+    </mat-form-field>
+</div>
+<div mat-dialog-actions>
+    <button mat-raised-button (click)="onNoClick()">Cancel</button>
+    <button mat-raised-button
+        [mat-dialog-close]="{shipSymbol: selectedShip.symbol, tradeSymbol: selectedSymbol, units: amount}"
+        cdkFocusInitial color="primary">Ok</button>
+</div>

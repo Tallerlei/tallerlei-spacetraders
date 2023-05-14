@@ -10,8 +10,8 @@
     <mat-card-content>
         <div class="label-and-text">
             <label>NAV > Status</label>
-            <div>{{ship().nav.status}}</div>
-            <div *ngIf="ship().nav.status === 'IN_TRANSIT'">{{arrival()}}</div>
+            <div>{{ship().nav.status}} </div>
+            <div *ngIf="ship().nav.status === 'IN_TRANSIT'">&nbsp;ETA: {{arrival()}}</div>
         </div>
         <div class="label-and-text">
             <label>NAV > Waypoint</label>

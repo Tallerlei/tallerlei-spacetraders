@@ -3,13 +3,13 @@ import { Injectable } from '@angular/core';
 
 import { Observable, map } from 'rxjs';
 
-import { BearerToken } from '../../../config/bearer-token';
+import { ConfigurationData } from '../../../config/configuration-data';
 import { Agent } from 'src/app/shared/models/agent/agent';
 import { UtilitiesService } from 'src/app/shared/services/utilities.service';
 import { Waypoint } from 'src/app/shared/models/waypoint/waypoint';
 import { Contract } from 'src/app/shared/models/contract/contract';
 import { ShipType } from 'src/app/shared/models/ship/ship-type';
-import { Ship } from 'src/app/shared/models/ship/ship';
+import { MyShip } from 'src/app/shared/models/ship/my-ship';
 import { Nav } from 'src/app/shared/models/ship/nav';
 import { Fuel } from 'src/app/shared/models/ship/fuel';
 import { Cargo } from 'src/app/shared/models/cargo/cargo';
@@ -18,6 +18,11 @@ import { Extraction } from 'src/app/shared/models/ship/extraction';
 import { Marketplace } from 'src/app/shared/models/market/marketplace';
 import { ShipyardTransaction } from 'src/app/shared/models/transaction/shipyard-transaction';
 import { MarketTransaction } from 'src/app/shared/models/transaction/market-transaction';
+import { Status } from 'src/app/shared/models/status/status';
+import { Faction } from 'src/app/shared/models/faction/faction';
+import { FactionSymbol } from 'src/app/shared/models/faction/faction-symbol.enum';
+import { Transaction } from 'src/app/shared/models/transaction/transaction';
+import { MarketShip } from 'src/app/shared/models/ship/market-ship';
 @Injectable({
   providedIn: 'root',
 })
@@ -26,12 +31,41 @@ export class SpacetradersApiService {
   headQuarter: string = 'X1-DF55-20250Z';
   constructor(private httpClient: HttpClient) {}
 
+  status(): Observable<Status> {
+    const url = this.baseUrl;
+    return this.httpClient
+      .get<Status>(url);
+  }
+
+  register(symbol: string, faction: FactionSymbol, email: string): Observable<{agent: Agent, ship: MyShip, contract: Contract, faction: Faction, token: string}> {
+    const url = this.baseUrl + '/register';
+
+    const body = {
+      faction,
+      email,
+      symbol
+    };
+    return this.httpClient
+      .post<{agent: Agent, ship: MyShip, contract: Contract, faction: Faction, token: string}>(url, body);
+  }
+
   getAgent(): Observable<Agent> {
     const url = this.baseUrl + '/my/agent';
     return this.httpClient
       .get<Agent>(url, {
         headers: new HttpHeaders({
-          Authorization: `Bearer ${new BearerToken().tokenValue}`,
+          Authorization: `Bearer ${new ConfigurationData().tokenValue}`,
+        }),
+      })
+      .pipe(map((data: any) => data.data));
+  }
+
+  reputation(): Observable<Agent> {
+    const url = this.baseUrl + '/my/factions';
+    return this.httpClient
+      .get<Agent>(url, {
+        headers: new HttpHeaders({
+          Authorization: `Bearer ${new ConfigurationData().tokenValue}`,
         }),
       })
       .pipe(map((data: any) => data.data));
@@ -51,7 +85,7 @@ export class SpacetradersApiService {
     return this.httpClient
       .get<Waypoint>(url, {
         headers: new HttpHeaders({
-          Authorization: `Bearer ${new BearerToken().tokenValue}`,
+          Authorization: `Bearer ${new ConfigurationData().tokenValue}`,
         }),
       })
       .pipe(map((data: any) => data.data));
@@ -62,7 +96,7 @@ export class SpacetradersApiService {
     return this.httpClient
       .get<Waypoint[]>(url, {
         headers: new HttpHeaders({
-          Authorization: `Bearer ${new BearerToken().tokenValue}`,
+          Authorization: `Bearer ${new ConfigurationData().tokenValue}`,
         }),
       })
       .pipe(map((data: any) => data.data));
@@ -73,7 +107,7 @@ export class SpacetradersApiService {
     return this.httpClient
       .get<Waypoint[]>(url, {
         headers: new HttpHeaders({
-          Authorization: `Bearer ${new BearerToken().tokenValue}`,
+          Authorization: `Bearer ${new ConfigurationData().tokenValue}`,
         }),
       })
       .pipe(map((data: any) => data.data));
@@ -84,7 +118,7 @@ export class SpacetradersApiService {
     return this.httpClient
       .get<Contract>(url, {
         headers: new HttpHeaders({
-          Authorization: `Bearer ${new BearerToken().tokenValue}`,
+          Authorization: `Bearer ${new ConfigurationData().tokenValue}`,
         }),
       })
       .pipe(map((data: any) => data.data));
@@ -95,7 +129,7 @@ export class SpacetradersApiService {
     return this.httpClient
       .get<Contract[]>(url, {
         headers: new HttpHeaders({
-          Authorization: `Bearer ${new BearerToken().tokenValue}`,
+          Authorization: `Bearer ${new ConfigurationData().tokenValue}`,
         }),
       })
       .pipe(map((data: any) => data.data));
@@ -104,11 +138,11 @@ export class SpacetradersApiService {
   acceptContract(
     contractId: string
   ): Observable<{ contract: Contract; agent: Agent }> {
-    const url = this.baseUrl + '/my/contracts/' + contractId;
+    const url = this.baseUrl + '/my/contracts/' + contractId + '/accept';
     return this.httpClient
-      .post<Contract[]>(url, {
+      .post<{ contract: Contract; agent: Agent }>(url, {
         headers: new HttpHeaders({
-          Authorization: `Bearer ${new BearerToken().tokenValue}`,
+          Authorization: `Bearer ${new ConfigurationData().tokenValue}`,
         }),
       })
       .pipe(map((data: any) => data.data));
@@ -116,7 +150,7 @@ export class SpacetradersApiService {
 
   checkShipyard(
     waypointSymbol: string
-  ): Observable<{ symbol: string; shipTypes: ShipType[] }> {
+  ): Observable<{ symbol: string; shipTypes: ShipType[], ships?: MarketShip[], transactions?: Transaction[] }> {
     const systemSymbol = UtilitiesService.getTextBeforeLastIndexOf(
       waypointSymbol,
       '-'
@@ -129,9 +163,9 @@ export class SpacetradersApiService {
       waypointSymbol +
       '/shipyard';
     return this.httpClient
-      .get<{ symbol: string; shipTypes: ShipType[] }>(url, {
+      .get<{ symbol: string; shipTypes: ShipType[], ships?: MarketShip[], transactions?: Transaction[] }>(url, {
         headers: new HttpHeaders({
-          Authorization: `Bearer ${new BearerToken().tokenValue}`,
+          Authorization: `Bearer ${new ConfigurationData().tokenValue}`,
         }),
       })
       .pipe(map((data: any) => data.data));
@@ -142,7 +176,7 @@ export class SpacetradersApiService {
     waypointSymbol: string
   ): Observable<{
     agent: Agent;
-    ship: Ship;
+    ship: MyShip;
     transaction: ShipyardTransaction;
   }> {
     const url = this.baseUrl + '/my/ships';
@@ -153,37 +187,37 @@ export class SpacetradersApiService {
     };
 
     return this.httpClient
-      .post<{ agent: Agent; ship: Ship; transaction: ShipyardTransaction }>(
+      .post<{ agent: Agent; ship: MyShip; transaction: ShipyardTransaction }>(
         url,
         body,
         {
           headers: new HttpHeaders({
-            Authorization: `Bearer ${new BearerToken().tokenValue}`,
+            Authorization: `Bearer ${new ConfigurationData().tokenValue}`,
           }),
         }
       )
       .pipe(map((data: any) => data.data));
   }
 
-  myShips(): Observable<Ship[]> {
+  myShips(): Observable<MyShip[]> {
     const url = this.baseUrl + '/my/ships';
 
     return this.httpClient
-      .get<Ship[]>(url, {
+      .get<MyShip[]>(url, {
         headers: new HttpHeaders({
-          Authorization: `Bearer ${new BearerToken().tokenValue}`,
+          Authorization: `Bearer ${new ConfigurationData().tokenValue}`,
         }),
       })
       .pipe(map((data: any) => data.data));
   }
 
-  getShip(shipSymbol: string): Observable<Ship> {
+  getShip(shipSymbol: string): Observable<MyShip> {
     const url = this.baseUrl + '/my/ships/' + shipSymbol;
 
     return this.httpClient
-      .get<Ship>(url, {
+      .get<MyShip>(url, {
         headers: new HttpHeaders({
-          Authorization: `Bearer ${new BearerToken().tokenValue}`,
+          Authorization: `Bearer ${new ConfigurationData().tokenValue}`,
         }),
       })
       .pipe(map((data: any) => data.data));
@@ -201,7 +235,7 @@ export class SpacetradersApiService {
     return this.httpClient
       .post<{ nav: Nav; fuel: Fuel }>(url, body, {
         headers: new HttpHeaders({
-          Authorization: `Bearer ${new BearerToken().tokenValue}`,
+          Authorization: `Bearer ${new ConfigurationData().tokenValue}`,
         }),
       })
       .pipe(map((data: any) => data.data));
@@ -212,7 +246,7 @@ export class SpacetradersApiService {
     return this.httpClient
       .post<{ nav: Nav }>(url, null, {
         headers: new HttpHeaders({
-          Authorization: `Bearer ${new BearerToken().tokenValue}`,
+          Authorization: `Bearer ${new ConfigurationData().tokenValue}`,
         }),
       })
       .pipe(map((data: any) => data.data));
@@ -223,7 +257,7 @@ export class SpacetradersApiService {
     return this.httpClient
       .post<{ agent: Agent; fuel: Fuel }>(url, null, {
         headers: new HttpHeaders({
-          Authorization: `Bearer ${new BearerToken().tokenValue}`,
+          Authorization: `Bearer ${new ConfigurationData().tokenValue}`,
         }),
       })
       .pipe(map((data: any) => data.data));
@@ -234,7 +268,7 @@ export class SpacetradersApiService {
     return this.httpClient
       .post<{ nav: Nav }>(url, null, {
         headers: new HttpHeaders({
-          Authorization: `Bearer ${new BearerToken().tokenValue}`,
+          Authorization: `Bearer ${new ConfigurationData().tokenValue}`,
         }),
       })
       .pipe(map((data: any) => data.data));
@@ -250,7 +284,7 @@ export class SpacetradersApiService {
         null,
         {
           headers: new HttpHeaders({
-            Authorization: `Bearer ${new BearerToken().tokenValue}`,
+            Authorization: `Bearer ${new ConfigurationData().tokenValue}`,
           }),
         }
       )
@@ -262,7 +296,7 @@ export class SpacetradersApiService {
     return this.httpClient
       .get<Cooldown>(url, {
         headers: new HttpHeaders({
-          Authorization: `Bearer ${new BearerToken().tokenValue}`,
+          Authorization: `Bearer ${new ConfigurationData().tokenValue}`,
         }),
       })
       .pipe(map((data: any) => (data ? data.data : null)));
@@ -283,7 +317,7 @@ export class SpacetradersApiService {
     return this.httpClient
       .get<Marketplace>(url, {
         headers: new HttpHeaders({
-          Authorization: `Bearer ${new BearerToken().tokenValue}`,
+          Authorization: `Bearer ${new ConfigurationData().tokenValue}`,
         }),
       })
       .pipe(map((data: any) => (data ? data.data : null)));
@@ -311,7 +345,7 @@ export class SpacetradersApiService {
         body,
         {
           headers: new HttpHeaders({
-            Authorization: `Bearer ${new BearerToken().tokenValue}`,
+            Authorization: `Bearer ${new ConfigurationData().tokenValue}`,
           }),
         }
       )
@@ -333,7 +367,7 @@ export class SpacetradersApiService {
         null,
         {
           headers: new HttpHeaders({
-            Authorization: `Bearer ${new BearerToken().tokenValue}`,
+            Authorization: `Bearer ${new ConfigurationData().tokenValue}`,
           }),
         }
       )
@@ -363,7 +397,7 @@ export class SpacetradersApiService {
         body,
         {
           headers: new HttpHeaders({
-            Authorization: `Bearer ${new BearerToken().tokenValue}`,
+            Authorization: `Bearer ${new ConfigurationData().tokenValue}`,
           }),
         }
       )

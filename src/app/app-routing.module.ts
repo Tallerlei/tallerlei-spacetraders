@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes, provideRouter, withComponentInputBinding } from '@angular/router';
-import { StartScreenComponent } from './start-screen/start-screen.component';
+import { AgentComponent } from './agent/agent.component';
 import { TraitComponent } from './trait/trait.component';
 import { OrbitComponent } from './orbit/orbit.component';
 import { PageNotFoundComponent } from './shared/not-found/not-found.component';
@@ -12,10 +12,12 @@ import { ShipyardComponent } from './trait/shipyard/shipyard.component';
 import { ShipsComponent } from './ships/ship-list.component';
 import { ShipDetailsComponent } from './ships/ship-details/ship-details.component';
 import { MarketplaceComponent } from './marketplace/marketplace.component';
+import { StartScreenComponent } from './start-screen/start-screen.component';
 
 const routes: Routes = [
-{path: '', redirectTo: 'start', outlet: 'side', pathMatch: 'full'},
+  { path: '', redirectTo: 'start', outlet: 'side', pathMatch: 'full' },
   { path: 'start', component: StartScreenComponent, outlet: 'side' },
+  { path: 'agent', component: AgentComponent, outlet: 'side' },
   { path: 'trait', component: TraitComponent },
   { path: 'orbit', component: OrbitComponent },
   { path: 'contract/:id', component: ContractDetailComponent },

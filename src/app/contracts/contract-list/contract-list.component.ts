@@ -22,8 +22,10 @@ export class ContractListComponent {
     this.router.navigate(['contract', contract.id]);
   }
   acceptContract(contract: Contract) {
-    this.api.acceptContract(contract.id)
+    this.api.acceptContract(contract.id).subscribe({
+      next: data => this.contracts.mutate(value =>
+        value[value.indexOf(contract)] = data.contract
+      )
+    });
   }
-
-
 }
