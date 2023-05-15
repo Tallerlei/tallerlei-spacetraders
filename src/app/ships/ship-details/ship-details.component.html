@@ -1,108 +1,96 @@
 <mat-card class="example-card" *ngIf="!loading() && ship().symbol">
-    <mat-card-header>
-        <mat-card-title mat>
-            {{ ship().registration.name }} ({{ ship().registration.factionSymbol }})
-        </mat-card-title>
-        <mat-card-subtitle mat>
-            {{ ship().registration.role }}
-        </mat-card-subtitle>
-    </mat-card-header>
-    <mat-card-content>
-        <div class="label-and-text">
-            <label>NAV > Status</label>
-            <div>{{ship().nav.status}} </div>
-            <div *ngIf="ship().nav.status === 'IN_TRANSIT'">&nbsp;ETA: {{arrival()}}</div>
+  <mat-card-header>
+    <mat-card-title mat [matTooltip]="ship().frame.description">
+      {{ ship().frame.name }} - {{ ship().registration.name }} ({{ ship().registration.factionSymbol }})
+    </mat-card-title>
+    <mat-card-subtitle mat>
+      {{ ship().registration.role }}
+    </mat-card-subtitle>
+  </mat-card-header>
+  <mat-card-content>
+    <div class="label-and-text">
+      <label>NAV > Status</label>
+      <div>{{ship().nav.status}} </div>
+      <div *ngIf="ship().nav.status === 'IN_TRANSIT'">&nbsp;ETA: {{arrival()}}</div>
+    </div>
+    <div class="label-and-text">
+      <label>NAV > Waypoint</label>
+      <button mat-button (click)="showWaypoint(ship().nav.waypointSymbol)">{{ship().nav.waypointSymbol}}</button>
+    </div>
+    <div class="label-and-text">
+      <label>Fuel</label>
+      <mat-progress-bar mode="determinate"
+        [value]="ship().fuel.current / ship().fuel.capacity * 100"></mat-progress-bar> {{ship().fuel.capacity}}
+    </div>
+    <div class="label-and-text">
+      <label>Cargo ({{ship().cargo.units + '/' + ship().cargo.capacity}})</label>
+        <div *ngFor="let inventoryItem of ship().cargo.inventory">
+          <ng-container [ngSwitch]="inventoryItem.symbol">
+            <button *ngSwitchCase="'ANTIMATTER'" mat-icon-button (click)="showItem(inventoryItem)" [matTooltip]="inventoryItem.name + ' (' + inventoryItem.units + ')'">
+              <mat-icon iconPositionEnd aria-hidden="false" aria-label="ANTIMATTER" fontIcon="contrast"></mat-icon>
+            </button>
+            <button *ngSwitchCase="'QUARTZ_SAND'" mat-icon-button (click)="showItem(inventoryItem)" [matTooltip]="inventoryItem.name + ' (' + inventoryItem.units + ')'">
+              <mat-icon iconPositionEnd aria-hidden="false" aria-label="QUARTZ_SAND" fontIcon="grain"></mat-icon>
+            </button>
+            <button *ngSwitchCase="'SILICON_CRYSTALS'" mat-icon-button (click)="showItem(inventoryItem)" [matTooltip]="inventoryItem.name + ' (' + inventoryItem.units + ')'">
+              <mat-icon iconPositionEnd aria-hidden="false" aria-label="Error" fontIcon="diamond"></mat-icon>
+            </button>
+            <button *ngSwitchDefault mat-icon-button (click)="showItem(inventoryItem)" [matTooltip]="inventoryItem.name + ' (' + inventoryItem.units + ')'">
+              <mat-icon iconPositionEnd aria-hidden="false" aria-label="Error" fontIcon="error"></mat-icon>
+            </button>
+          </ng-container>
         </div>
-        <div class="label-and-text">
-            <label>NAV > Waypoint</label>
-            <button mat-button (click)="showWaypoint(ship().nav.waypointSymbol)">{{ship().nav.waypointSymbol}}</button>
+      </div>
+    <div class="label-and-text">
+      <label>Modules</label>
+      <div *ngFor="let module of ship().modules">
+        <ng-container [ngSwitch]="module.symbol">
+          <button *ngSwitchCase="'MODULE_CARGO_HOLD_I'" mat-icon-button (click)="showModule(module)" [matTooltip]="module.name + ' (' + module.capacity+ ')'">
+            <mat-icon iconPositionEnd aria-hidden="false" aria-label="module.name" fontIcon="garage_home"></mat-icon>
+          </button>
+          <button *ngSwitchCase="'MODULE_CREW_QUARTERS_I'" mat-icon-button (click)="showModule(module)" [matTooltip]="module.name + ' (' + module.capacity+ ')'">
+            <mat-icon iconPositionEnd aria-hidden="false" aria-label="module.name" fontIcon="groups"></mat-icon>
+          </button>
+          <button *ngSwitchCase="'MODULE_MINERAL_PROCESSOR_I'" mat-icon-button (click)="showModule(module)" [matTooltip]="module.name">
+            <mat-icon aria-hidden="false" aria-label="module.name" fontIcon="memory"></mat-icon>
+          </button>
+          <button *ngSwitchCase="'MODULE_JUMP_DRIVE_I'" mat-icon-button (click)="showModule(module)" [matTooltip]="module.name">
+            <mat-icon aria-hidden="false" aria-label="module.name" fontIcon="move_down"></mat-icon>
+          </button>
+          <button *ngSwitchCase="'MODULE_WARP_DRIVE_I'" mat-icon-button (click)="showModule(module)" [matTooltip]="module.name">
+            <mat-icon aria-hidden="false" aria-label="module.name" fontIcon="fast_forward"></mat-icon>
+          </button>
+          <button *ngSwitchDefault mat-icon-button (click)="showModule(module)" [matTooltip]="module.name">
+            <span *ngIf="module.capacity">({{ module.capacity}}) </span><mat-icon iconPositionEnd aria-hidden="false" aria-label="module.name" fontIcon="error"></mat-icon>
+          </button>
+        </ng-container>
+      </div>
+    </div>
+    <div class="label-and-text">
+      <label>Mounts</label>
+      <div>
+        <div *ngFor="let mount of ship().mounts" class="label-and-text">
+          <label>{{mount.name}}</label>
+          <div>{{ mount.description}}</div>
+          <div>{{ mount.strength}}</div>
         </div>
-        <div class="label-and-text">
-            <label>Fuel</label>
-            <mat-progress-bar mode="determinate"
-                [value]="ship().fuel.current / ship().fuel.capacity * 100"></mat-progress-bar> {{ship().fuel.capacity}}
-        </div>
-        <div class="label-and-text">
-            <label>FRAME</label>
-            <div>
-                <div class="label-and-text">
-                    <label>Name</label>
-                    <div>{{ ship().frame.name}}</div>
-                </div>
-                <div class="label-and-text">
-                    <label>Description</label>
-                    <div>{{ ship().frame.description}}</div>
-                </div>
-            </div>
-        </div>
-        <div class="label-and-text">
-            <label>CARGO</label>
-            <div>
-                <div class="label-and-text">
-                    <label>capacity</label>
-                    <div>{{ ship().cargo.capacity}}</div>
-                </div>
-                <div class="label-and-text">
-                    <label>units</label>
-                    <div>{{ ship().cargo.units}}</div>
-                </div>
-                <div class="label-and-text">
-                    <label>inventory</label>
-                    <div>
-                        <div *ngFor="let inventoryItem of ship().cargo.inventory">
-                            <div class="label-and-text">
-                                <label>Name</label>
-                                <div>{{ inventoryItem.name}}</div>
-                            </div>
-                            <div class="label-and-text">
-                                <label>Description</label>
-                                <div>{{ inventoryItem.description}}</div>
-                            </div>
-                            <div class="label-and-text">
-                                <label>Units</label>
-                                <div>{{ inventoryItem.units}}</div>
-                            </div>
+      </div>
+    </div>
 
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="label-and-text">
-            <label>MODULES</label>
-            <div>
-                <div *ngFor="let module of ship().modules" class="label-and-text">
-                    <label>{{module.name}}</label>
-                    <div>{{ module.description}}</div>
-                    <div>{{ module.capacity}}</div>
-                </div>
-            </div>
-        </div>
-        <div class="label-and-text">
-            <label>Mounts</label>
-            <div>
-                <div *ngFor="let mount of ship().mounts" class="label-and-text">
-                    <label>{{mount.name}}</label>
-                    <div>{{ mount.description}}</div>
-                    <div>{{ mount.strength}}</div>
-                </div>
-            </div>
-        </div>
-
-    </mat-card-content>
-    <mat-card-actions>
-        <button *ngIf="fromList" mat-raised-button color="primary" (click)="goToShip()">Go To Ship</button>
-        <button *ngIf="!fromList" mat-raised-button color="primary" (click)="viewShips()">View Ships</button>
-        <button mat-raised-button color="primary" (click)="dockShip()" [disabled]="ship().nav.status === 'DOCKED'">Dock
-            Ship</button>
-        <button mat-raised-button color="primary" (click)="refuelShip()"
-            [disabled]="ship().nav.status !== 'DOCKED'">Refuel Ship</button>
-        <button mat-raised-button color="primary" (click)="orbitWaypoint()"
-            [disabled]="ship().nav.status !== 'DOCKED'">Orbit Wayoint</button>
-    </mat-card-actions>
-    <mat-card-actions>
-        <button mat-raised-button color="primary" (click)="extractMinerals()"
-            [disabled]="extractDisabled">{{extractCooldown() > 0 ? 'Extracting ' + extractCooldown() : 'Extract' }}</button>
-        <button *ngIf="hasMarket" mat-raised-button color="primary" (click)="goToMarket()" [disabled]="ship().nav.status !== 'DOCKED'">Go To Market</button>
-    </mat-card-actions>
+  </mat-card-content>
+  <mat-card-actions>
+    <button *ngIf="fromList" mat-raised-button color="primary" (click)="goToShip()">Go To Ship</button>
+    <button *ngIf="!fromList" mat-raised-button color="primary" (click)="viewShips()">View Ships</button>
+    <button mat-raised-button color="primary" (click)="dockShip()" [disabled]="ship().nav.status !== 'IN_ORBIT'">Dock
+      Ship</button>
+    <button mat-raised-button color="primary" (click)="refuelShip()"
+      [disabled]="ship().nav.status !== 'DOCKED'">Refuel Ship</button>
+    <button mat-raised-button color="primary" (click)="orbitWaypoint()"
+      [disabled]="ship().nav.status !== 'DOCKED'">Orbit Wayoint</button>
+  </mat-card-actions>
+  <mat-card-actions>
+    <button mat-raised-button color="primary" (click)="extractMinerals()"
+      [disabled]="extractDisabled">{{extractCooldown() > 0 ? 'Extracting ' + extractCooldown() : 'Extract' }}</button>
+    <button *ngIf="hasMarket" mat-raised-button color="primary" (click)="goToMarket()" [disabled]="ship().nav.status !== 'DOCKED'">Go To Market</button>
+  </mat-card-actions>
 </mat-card>

@@ -1,14 +1,16 @@
 import {
   Component,
   Input,
-  Signal,
   WritableSignal,
   effect,
-  signal,
+  signal
 } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import { SpacetradersApiService } from 'src/app/core/services/spacetraders-api.service';
+import { Good } from 'src/app/shared/models/market/good';
+import { TradeGood } from 'src/app/shared/models/market/tradegood';
+import { Module } from 'src/app/shared/models/ship/module';
 import { MyShip } from 'src/app/shared/models/ship/my-ship';
 import { Waypoint } from 'src/app/shared/models/waypoint/waypoint';
 
@@ -52,7 +54,7 @@ export class ShipDetailsComponent {
     });
 
     effect(() => {
-      console.log('TRIGGERED');
+      console.log(this.extractCooldown());
       if (!this.extractDisabled) {
         this.extractMinerals();
       }
@@ -145,6 +147,14 @@ export class ShipDetailsComponent {
     });
   }
 
+
+  showItem(tradegood: Good): void {
+    this.router.navigate(['tradegood', tradegood.symbol]);
+  }
+
+  showModule(module: Module): void {
+    this.router.navigate(['module', module.symbol]);
+  }
   get hasMarket(): boolean {
     return (
       this.waypoint &&
@@ -154,6 +164,6 @@ export class ShipDetailsComponent {
   }
 
   get extractDisabled(): boolean {
-    return this.ship().nav.status !== 'IN_ORBIT' || this.extractCooldown() > 0 || this.ship().cargo.capacity === this.ship().cargo.units;
+    return this.waypoint.type !== 'ASTEROID_FIELD' || this.ship().nav.status !== 'IN_ORBIT' || this.extractCooldown() > 0 || this.ship().cargo.capacity === this.ship().cargo.units;
   }
 }

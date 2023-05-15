@@ -15,6 +15,8 @@ import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatInputModule } from '@angular/material/input';
+import { MatTooltipModule } from '@angular/material/tooltip';
+
 
 
 @NgModule({
@@ -36,6 +38,7 @@ import { MatInputModule } from '@angular/material/input';
     MatSlideToggleModule,
     MatSnackBarModule,
     MatToolbarModule,
+    MatTooltipModule,
   ],
   exports: [
     MatButtonModule,
@@ -54,6 +57,7 @@ import { MatInputModule } from '@angular/material/input';
     MatSlideToggleModule,
     MatSnackBarModule,
     MatToolbarModule,
+    MatTooltipModule,
   ]
 })
 export class AngularMaterialModule { }

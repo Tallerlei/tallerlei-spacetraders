@@ -49,7 +49,7 @@ export class SpacetradersApiService {
       .post<{agent: Agent, ship: MyShip, contract: Contract, faction: Faction, token: string}>(url, body);
   }
 
-  getAgent(): Observable<Agent> {
+  goToAgent(): Observable<Agent> {
     const url = this.baseUrl + '/my/agent';
     return this.httpClient
       .get<Agent>(url, {

@@ -30,7 +30,7 @@ export class StartScreenComponent {
     );
   }
 
-  getAgent() {
+  goToAgent() {
     this.router.navigate([{ outlets: { side: ['agent'] } }]);
   }
 

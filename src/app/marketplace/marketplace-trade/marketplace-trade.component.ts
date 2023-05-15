@@ -18,7 +18,7 @@ export class MarketplaceTradeComponent {
     private api: SpacetradersApiService,
     private fb: FormBuilder,
     private messageService: MessageService
-    ) {
+  ) {
     this.form = this.fb.group({
       buy_amount: [''],
       sell_amount: [''],
@@ -33,14 +33,28 @@ export class MarketplaceTradeComponent {
   }
 
   sellGood(tradeGood: TradeGood) {
-    this.api.sellCargo(
-      this.ship.symbol,
-      tradeGood.symbol,
-      +this.form.controls['sell_amount'].value
-    ).subscribe({next: data => {
-      this.ship.cargo = data.cargo;
-      this.messageService.snack('Sold ' + data.transaction.units + ' units of ' +data.transaction.tradeSymbol + ' for a price of ' + data.transaction.pricePerUnit + ' making a total of ' + data.transaction.totalPrice + '.')
-    }});
+    this.api
+      .sellCargo(
+        this.ship.symbol,
+        tradeGood.symbol,
+        +this.form.controls['sell_amount'].value
+      )
+      .subscribe({
+        next: (data) => {
+          this.ship.cargo = data.cargo;
+          this.messageService.snack(
+            'Sold ' +
+              data.transaction.units +
+              ' units of ' +
+              data.transaction.tradeSymbol +
+              ' for a price of ' +
+              data.transaction.pricePerUnit +
+              ' making a total of ' +
+              data.transaction.totalPrice +
+              '.'
+          );
+        },
+      });
   }
 
   hasCargo(tradeGood: TradeGood) {
@@ -49,9 +63,10 @@ export class MarketplaceTradeComponent {
     );
   }
 
-  unitsInInventory(tradeGood: TradeGood) {
-    return this.ship.cargo.inventory.find(
+  unitsInInventory(tradeGood: TradeGood): number {
+    const goodToCheck = this.ship.cargo.inventory.find(
       (item) => item.symbol === tradeGood.symbol
-    ).units;
+    );
+    return goodToCheck ? goodToCheck.units : 0;
   }
 }

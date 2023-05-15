@@ -17,14 +17,7 @@ export class AgentComponent {
     private api: SpacetradersApiService,
     private router: Router,
     private session: SessionService
-  ) {
-    this.api.reputation().subscribe({ next: data => this.reputation.set(data) });
-    this.api.getAgent().subscribe(
-      {
-        next: agent => this.session.agent.set(agent)
-      }
-    );
-  }
+  ) {}
 
   visitHeadQuarterClicked() {
     this.router.navigate(['waypoint', this.agent.headquarters])
